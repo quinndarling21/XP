@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		57875ED42D1766710011A52D /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875ED02D1766710011A52D /* PersistenceController.swift */; };
+		57875ED82D1766810011A52D /* ProjectStructure.md in Resources */ = {isa = PBXBuildFile; fileRef = 57875ED62D1766810011A52D /* ProjectStructure.md */; };
+		57875EDD2D17681F0011A52D /* XP.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57875EDB2D17681F0011A52D /* XP.xcdatamodeld */; };
 		57DCFDC92D175641005D628F /* XPApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DCFDC82D175641005D628F /* XPApp.swift */; };
 		57DCFDCB2D175641005D628F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DCFDCA2D175641005D628F /* ContentView.swift */; };
 		57DCFDCD2D175642005D628F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57DCFDCC2D175642005D628F /* Assets.xcassets */; };
@@ -34,6 +37,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		57875ED02D1766710011A52D /* PersistenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		57875ED62D1766810011A52D /* ProjectStructure.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ProjectStructure.md; sourceTree = "<group>"; };
+		57875EDC2D17681F0011A52D /* XP.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XP.xcdatamodel; sourceTree = "<group>"; };
 		57DCFDC52D175641005D628F /* XP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57DCFDC82D175641005D628F /* XPApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPApp.swift; sourceTree = "<group>"; };
 		57DCFDCA2D175641005D628F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +77,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		57875ED22D1766710011A52D /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				57875ED02D1766710011A52D /* PersistenceController.swift */,
+				57875EDB2D17681F0011A52D /* XP.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		57875ED72D1766810011A52D /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				57875ED62D1766810011A52D /* ProjectStructure.md */,
+			);
+			name = docs;
+			path = XP/docs;
+			sourceTree = SOURCE_ROOT;
+		};
 		57DCFDBC2D175641005D628F = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +118,8 @@
 		57DCFDC72D175641005D628F /* XP */ = {
 			isa = PBXGroup;
 			children = (
+				57875ED72D1766810011A52D /* docs */,
+				57875ED22D1766710011A52D /* CoreData */,
 				57DCFDC82D175641005D628F /* XPApp.swift */,
 				57DCFDCA2D175641005D628F /* ContentView.swift */,
 				57DCFDCC2D175642005D628F /* Assets.xcassets */,
@@ -233,6 +259,7 @@
 			files = (
 				57DCFDD02D175642005D628F /* Preview Assets.xcassets in Resources */,
 				57DCFDCD2D175642005D628F /* Assets.xcassets in Resources */,
+				57875ED82D1766810011A52D /* ProjectStructure.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,8 +284,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57875ED42D1766710011A52D /* PersistenceController.swift in Sources */,
 				57DCFDCB2D175641005D628F /* ContentView.swift in Sources */,
 				57DCFDC92D175641005D628F /* XPApp.swift in Sources */,
+				57875EDD2D17681F0011A52D /* XP.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,6 +611,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		57875EDB2D17681F0011A52D /* XP.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				57875EDC2D17681F0011A52D /* XP.xcdatamodel */,
+			);
+			currentVersion = 57875EDC2D17681F0011A52D /* XP.xcdatamodel */;
+			name = XP.xcdatamodeld;
+			path = /Users/quinndarling/Projects/XP/XP/CoreData/XP.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 57DCFDBD2D175641005D628F /* Project object */;
 }
