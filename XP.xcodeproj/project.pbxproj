@@ -10,8 +10,8 @@
 		57875ED42D1766710011A52D /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875ED02D1766710011A52D /* PersistenceController.swift */; };
 		57875ED82D1766810011A52D /* ProjectStructure.md in Resources */ = {isa = PBXBuildFile; fileRef = 57875ED62D1766810011A52D /* ProjectStructure.md */; };
 		57875EDD2D17681F0011A52D /* XP.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57875EDB2D17681F0011A52D /* XP.xcdatamodeld */; };
-		57DCFDC92D175641005D628F /* XPApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DCFDC82D175641005D628F /* XPApp.swift */; };
-		57DCFDCB2D175641005D628F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DCFDCA2D175641005D628F /* ContentView.swift */; };
+		57875EE02D176C190011A52D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875EDE2D176C190011A52D /* ContentView.swift */; };
+		57875EE12D176DEC0011A52D /* XPApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DCFDC82D175641005D628F /* XPApp.swift */; };
 		57DCFDCD2D175642005D628F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57DCFDCC2D175642005D628F /* Assets.xcassets */; };
 		57DCFDD02D175642005D628F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57DCFDCF2D175642005D628F /* Preview Assets.xcassets */; };
 		57DCFDDA2D175642005D628F /* XPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DCFDD92D175642005D628F /* XPTests.swift */; };
@@ -40,9 +40,9 @@
 		57875ED02D1766710011A52D /* PersistenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		57875ED62D1766810011A52D /* ProjectStructure.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ProjectStructure.md; sourceTree = "<group>"; };
 		57875EDC2D17681F0011A52D /* XP.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XP.xcdatamodel; sourceTree = "<group>"; };
+		57875EDE2D176C190011A52D /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		57DCFDC52D175641005D628F /* XP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57DCFDC82D175641005D628F /* XPApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPApp.swift; sourceTree = "<group>"; };
-		57DCFDCA2D175641005D628F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		57DCFDCC2D175642005D628F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		57DCFDCF2D175642005D628F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		57DCFDD52D175642005D628F /* XPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +95,14 @@
 			path = XP/docs;
 			sourceTree = SOURCE_ROOT;
 		};
+		57875EDF2D176C190011A52D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				57875EDE2D176C190011A52D /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		57DCFDBC2D175641005D628F = {
 			isa = PBXGroup;
 			children = (
@@ -118,10 +126,10 @@
 		57DCFDC72D175641005D628F /* XP */ = {
 			isa = PBXGroup;
 			children = (
+				57875EDF2D176C190011A52D /* Views */,
 				57875ED72D1766810011A52D /* docs */,
 				57875ED22D1766710011A52D /* CoreData */,
 				57DCFDC82D175641005D628F /* XPApp.swift */,
-				57DCFDCA2D175641005D628F /* ContentView.swift */,
 				57DCFDCC2D175642005D628F /* Assets.xcassets */,
 				57DCFDCE2D175642005D628F /* Preview Content */,
 			);
@@ -285,9 +293,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				57875ED42D1766710011A52D /* PersistenceController.swift in Sources */,
-				57DCFDCB2D175641005D628F /* ContentView.swift in Sources */,
-				57DCFDC92D175641005D628F /* XPApp.swift in Sources */,
+				57875EE02D176C190011A52D /* ContentView.swift in Sources */,
 				57875EDD2D17681F0011A52D /* XP.xcdatamodeld in Sources */,
+				57875EE12D176DEC0011A52D /* XPApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,9 +456,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"XP/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -465,6 +474,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = quinndarling.XP;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -476,9 +486,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"XP/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -493,6 +504,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = quinndarling.XP;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -504,13 +516,15 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = quinndarling.XPTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -523,13 +537,15 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = quinndarling.XPTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -541,12 +557,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = quinndarling.XPUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -558,12 +576,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = quinndarling.XPUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
