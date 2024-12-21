@@ -37,31 +37,38 @@ struct ContentView: View {
 struct ObjectiveCard: View {
     let objective: Objective
     let onComplete: () -> Void
+    @State private var showingDetail = false
     
     var body: some View {
-        VStack(spacing: 12) {
-            Circle()
-                .fill(objective.isCompleted ? .green : .blue)
-                .frame(width: 60, height: 60)
-                .overlay {
-                    Image(systemName: objective.isCompleted ? "checkmark" : "star.fill")
-                        .foregroundStyle(.white)
-                }
-            
-            Text("\(objective.xpValue) XP")
-                .font(.headline)
-            
-            if !objective.isCompleted {
-                Button("Complete", action: onComplete)
-                    .buttonStyle(.borderedProminent)
+        Button {
+            showingDetail = true
+        } label: {
+            VStack(spacing: 12) {
+                Circle()
+                    .fill(objective.isCompleted ? .green : .blue)
+                    .frame(width: 60, height: 60)
+                    .overlay {
+                        Image(systemName: objective.isCompleted ? "checkmark" : "star.fill")
+                            .foregroundStyle(.white)
+                    }
+                
+                Text("\(objective.xpValue) XP")
+                    .font(.headline)
             }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(.background)
+                    .shadow(radius: 2)
+            )
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(.background)
-                .shadow(radius: 2)
-        )
+        .accessibilityIdentifier("objective-card")
+        .sheet(isPresented: $showingDetail) {
+            ObjectiveDetailView(
+                objective: objective,
+                onComplete: onComplete
+            )
+        }
     }
 }
 

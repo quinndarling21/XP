@@ -22,7 +22,8 @@ final class XPUITests: XCTestCase {
     
     func testObjectivesDisplay() throws {
         // Verify we have objectives displayed
-        XCTAssertTrue(app.buttons["Complete"].exists)
+        let objectiveCard = app.buttons["objective-card"].firstMatch
+        XCTAssertTrue(objectiveCard.exists)
         
         // Verify XP values are shown
         let xpTexts = app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'XP'"))
@@ -38,16 +39,44 @@ final class XPUITests: XCTestCase {
     }
     
     func testObjectiveCompletion() throws {
-        // Find and tap the first Complete button
-        let completeButton = app.buttons["Complete"].firstMatch
-        XCTAssertTrue(completeButton.exists)
+        // Find and tap the first objective card
+        let objectiveCard = app.buttons["objective-card"].firstMatch
+        XCTAssertTrue(objectiveCard.exists)
+        objectiveCard.tap()
         
+        // Give the sheet time to animate
+        Thread.sleep(forTimeInterval: 1)
+        
+        // Get initial XP value
         let initialXP = app.staticTexts.matching(NSPredicate(format: "label CONTAINS '/'")).firstMatch.label
         
+        // Complete the objective
+        let completeButton = app.buttons["Mark as Complete"]
+        XCTAssertTrue(completeButton.exists)
         completeButton.tap()
         
         // Verify XP changed
         let newXP = app.staticTexts.matching(NSPredicate(format: "label CONTAINS '/'")).firstMatch.label
         XCTAssertNotEqual(initialXP, newXP)
+    }
+    
+    func testObjectiveDetailView() throws {
+        // Find and tap the first objective card
+        let objectiveCard = app.buttons["objective-card"].firstMatch
+        XCTAssertTrue(objectiveCard.exists)
+        objectiveCard.tap()
+        
+        // Give the sheet time to animate
+        Thread.sleep(forTimeInterval: 1)
+        
+        // Verify the mark as complete button exists
+        let completeButton = app.buttons["Mark as Complete"]
+        XCTAssertTrue(completeButton.exists)
+        
+        // Complete the objective
+        completeButton.tap()
+        
+        // Verify the sheet dismisses
+        XCTAssertFalse(completeButton.exists)
     }
 }
