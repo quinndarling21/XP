@@ -5,8 +5,13 @@ struct PersistenceController {
     
     let container: NSPersistentContainer
     
+    static var managedObjectModel: NSManagedObjectModel = {
+        let modelURL = Bundle.main.url(forResource: "XP", withExtension: "momd")!
+        return NSManagedObjectModel(contentsOf: modelURL)!
+    }()
+    
     init(inMemory: Bool = false) {
-        container = NSPersistentContainer(name: "XP")
+        container = NSPersistentContainer(name: "XP", managedObjectModel: Self.managedObjectModel)
         
         if inMemory {
             container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")

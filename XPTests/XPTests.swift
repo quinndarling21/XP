@@ -19,6 +19,7 @@ final class XPTests: XCTestCase {
     }
     
     override func tearDownWithError() throws {
+        try context.save()
         persistenceController = nil
         context = nil
     }
