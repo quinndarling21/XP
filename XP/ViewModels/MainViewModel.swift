@@ -27,7 +27,6 @@ class MainViewModel: ObservableObject {
             if let existingUser = users.first {
                 self.user = existingUser
             } else {
-                // Create a new user if none exists
                 let newUser = persistenceController.createUser()
                 try viewContext.save()
                 self.user = newUser
@@ -38,24 +37,40 @@ class MainViewModel: ObservableObject {
     }
     
     private func generateObjectives() {
-        // For V0, generate 3 random objectives
-        objectives = (0..<3).map { _ in Objective() }
+        // Generate 3 random objectives with XP values between 100-500 (multiples of 10)
+        objectives = (0..<3).map { _ in
+            Objective()
+        }
     }
     
     // MARK: - User Actions
     
     func markObjectiveComplete(_ objective: Objective) {
-        guard var updatedObjective = objectives.first(where: { $0.id == objective.id }),
-              let user = user else {
-            return
-        }
+        guard let user = user,
+              !objective.isCompleted else { return }
         
         // Update objective state
-        updatedObjective.isCompleted = true
+        if let index = objectives.firstIndex(where: { $0.id == objective.id }) {
+            objectives[index].isCompleted = true
+        }
         
-        // Update user XP (placeholder implementation)
-        user.currentXP += Int32(updatedObjective.xpValue)
+        // Add XP
+        let newXP = user.currentXP + Int32(objective.xpValue)
         
+        // Check for level up
+        if newXP >= user.requiredXPForLevel {
+            user.currentLevel += 1
+            user.currentXP = newXP - user.requiredXPForLevel
+            // Could also increase requiredXPForLevel for next level if desired
+            user.requiredXPForLevel += 500 // Simple increment for now
+        } else {
+            user.currentXP = newXP
+        }
+        
+        // Increment objectives completed
+        user.objectivesCompleted += 1
+        
+        // Save changes
         do {
             try viewContext.save()
             objectWillChange.send()
