@@ -12,12 +12,23 @@ struct PersistenceController {
             container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
         }
         
+        let viewContext = container.viewContext
+        
         container.loadPersistentStores { description, error in
             if let error = error {
                 fatalError("Error: \(error.localizedDescription)")
             }
+            
+            viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         }
         
         container.viewContext.automaticallyMergesChangesFromParent = true
+    }
+    
+    // Helper method to create a new user with defaults
+    func createUser() -> User {
+        let user = User(context: container.viewContext)
+        user.id = UUID()
+        return user
     }
 } 

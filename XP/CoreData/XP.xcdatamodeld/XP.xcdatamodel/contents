@@ -4,8 +4,8 @@
         <attribute name="currentLevel" attributeType="Integer 32" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="currentXP" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="objectivesComplete" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="requiredXPforLevel" attributeType="Integer 32" defaultValueString="1000" usesScalarValueType="YES"/>
+        <attribute name="objectivesCompleted" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="requiredXPForLevel" attributeType="Integer 32" defaultValueString="1000" usesScalarValueType="YES"/>
         <attribute name="streakEndDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="streakStartDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>

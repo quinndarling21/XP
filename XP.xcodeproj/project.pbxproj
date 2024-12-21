@@ -12,6 +12,8 @@
 		57875EDD2D17681F0011A52D /* XP.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57875EDB2D17681F0011A52D /* XP.xcdatamodeld */; };
 		57875EE02D176C190011A52D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875EDE2D176C190011A52D /* ContentView.swift */; };
 		57875EE12D176DEC0011A52D /* XPApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DCFDC82D175641005D628F /* XPApp.swift */; };
+		57875EE42D1774800011A52D /* Objective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875EE22D1774800011A52D /* Objective.swift */; };
+		57875EE62D1777F00011A52D /* User+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875EE52D1777F00011A52D /* User+Extensions.swift */; };
 		57DCFDCD2D175642005D628F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57DCFDCC2D175642005D628F /* Assets.xcassets */; };
 		57DCFDD02D175642005D628F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57DCFDCF2D175642005D628F /* Preview Assets.xcassets */; };
 		57DCFDDA2D175642005D628F /* XPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DCFDD92D175642005D628F /* XPTests.swift */; };
@@ -41,6 +43,8 @@
 		57875ED62D1766810011A52D /* ProjectStructure.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ProjectStructure.md; sourceTree = "<group>"; };
 		57875EDC2D17681F0011A52D /* XP.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XP.xcdatamodel; sourceTree = "<group>"; };
 		57875EDE2D176C190011A52D /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		57875EE22D1774800011A52D /* Objective.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Objective.swift; sourceTree = "<group>"; };
+		57875EE52D1777F00011A52D /* User+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Extensions.swift"; sourceTree = "<group>"; };
 		57DCFDC52D175641005D628F /* XP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57DCFDC82D175641005D628F /* XPApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPApp.swift; sourceTree = "<group>"; };
 		57DCFDCC2D175642005D628F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -103,6 +107,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		57875EE32D1774800011A52D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				57875EE52D1777F00011A52D /* User+Extensions.swift */,
+				57875EE22D1774800011A52D /* Objective.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		57DCFDBC2D175641005D628F = {
 			isa = PBXGroup;
 			children = (
@@ -126,6 +139,7 @@
 		57DCFDC72D175641005D628F /* XP */ = {
 			isa = PBXGroup;
 			children = (
+				57875EE32D1774800011A52D /* Models */,
 				57875EDF2D176C190011A52D /* Views */,
 				57875ED72D1766810011A52D /* docs */,
 				57875ED22D1766710011A52D /* CoreData */,
@@ -292,6 +306,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57875EE62D1777F00011A52D /* User+Extensions.swift in Sources */,
+				57875EE42D1774800011A52D /* Objective.swift in Sources */,
 				57875ED42D1766710011A52D /* PersistenceController.swift in Sources */,
 				57875EE02D176C190011A52D /* ContentView.swift in Sources */,
 				57875EDD2D17681F0011A52D /* XP.xcdatamodeld in Sources */,
