@@ -8,14 +8,11 @@ struct AddPathwayView: View {
     @State private var selectedColorIndex = 0
     
     let colorOptions: [(name: String, color: Color)] = [
-        ("Blue", .blue),
-        ("Purple", .purple),
-        ("Green", .green),
-        ("Orange", .orange),
-        ("Pink", .pink),
-        ("Teal", .teal),
-        ("Indigo", .indigo),
-        ("Red", .red)
+        ("Red", .flame),
+        ("Blue", .delftBlue),
+        ("Orange", .orangeWeb),
+        ("Green", .olivine),
+        ("Blue", .airSuperiorityBlue)
     ]
     
     var body: some View {

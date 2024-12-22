@@ -4,18 +4,16 @@ import SwiftUI
 
 extension Pathway {
     static let pathwayColors: [Color] = [
-        .blue,
-        .purple,
-        .green,
-        .orange,
-        .pink,
-        .teal,
-        .indigo,
-        .red
+        .flame,
+        .delftBlue,
+        .orangeWeb,
+        .olivine,
+        .airSuperiorityBlue
     ]
     
     var pathwayColor: Color {
-        Self.pathwayColors[Int(colorIndex)]
+        let index = Int(colorIndex)
+        return Self.pathwayColors.indices.contains(index) ? Self.pathwayColors[index] : Self.pathwayColors[0]
     }
     
     static func create(
