@@ -40,7 +40,6 @@ struct ObjectiveDetailView: View {
                 .padding(.top)
             }
             
-            Spacer()
         }
         .padding()
         .navigationBarTitleDisplayMode(.inline)

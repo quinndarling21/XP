@@ -5,7 +5,7 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 0) {
             ScrollViewReader { proxy in
                 ScrollView {
                     LazyVStack(spacing: 24) {
@@ -28,8 +28,6 @@ struct ContentView: View {
                 }
             }
             
-            Spacer()
-            
             XPProgressBar(
                 currentXP: viewModel.user?.currentXP ?? 0,
                 requiredXP: viewModel.user?.requiredXPForLevel ?? 1000,
@@ -45,11 +43,11 @@ struct ObjectiveNode: View {
     let onComplete: () -> Void
     @State private var showingDetail = false
     
-    var nodeColor: Color {
+    var nodeColor: LinearGradient {
         if objective.isCompleted {
-            return .green
+            return LinearGradient(colors: [.green, .mint], startPoint: .top, endPoint: .bottom)
         }
-        return isCurrentTask ? .blue : .gray.opacity(0.5)
+        return isCurrentTask ? LinearGradient(colors: [.blue, .cyan], startPoint: .top, endPoint: .bottom) : LinearGradient(colors: [.gray.opacity(0.5), .gray], startPoint: .top, endPoint: .bottom)
     }
     
     var body: some View {
@@ -59,10 +57,12 @@ struct ObjectiveNode: View {
             VStack(spacing: 8) {
                 Circle()
                     .fill(nodeColor)
-                    .frame(width: 60, height: 60)
+                    .frame(width: 70, height: 70)
+                    .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 5)
                     .overlay {
                         if objective.isCompleted {
                             Image(systemName: "checkmark")
+                                .font(.title)
                                 .foregroundStyle(.white)
                         } else if isCurrentTask {
                             Text("START")
@@ -75,7 +75,7 @@ struct ObjectiveNode: View {
                     }
                 
                 Text("\(objective.xpValue) XP")
-                    .font(.caption)
+                    .font(.caption2)
                     .foregroundStyle(objective.isCompleted || isCurrentTask ? .primary : .secondary)
             }
         }
