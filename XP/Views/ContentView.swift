@@ -97,7 +97,6 @@ struct ContentView: View {
     }
     
     private func calculateFillHeight(geometry: GeometryProxy, objectives: [Objective]) -> CGFloat {
-        let completedCount = objectives.prefix { $0.isCompleted }.count
         let totalHeight = geometry.size.height
         if let currentObjective = objectives.first(where: { !$0.isCompleted }) {
             let index = objectives.firstIndex(where: { $0.id == currentObjective.id }) ?? 0
