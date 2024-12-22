@@ -44,8 +44,13 @@ class PathwayViewModel: ObservableObject {
         }
     }
     
-    func addPathway(name: String, description: String) {
-        let newPathway = Pathway.create(in: viewContext, name: name, description: description)
+    func addPathway(name: String, description: String, colorIndex: Int) {
+        let newPathway = Pathway.create(
+            in: viewContext,
+            name: name,
+            description: description,
+            colorIndex: colorIndex
+        )
         pathways.append(newPathway)
         
         generateObjectives(for: newPathway)
@@ -76,6 +81,19 @@ class PathwayViewModel: ObservableObject {
             objective.xpValue = Int32(Int.random(in: 10...50) * 10)
             objective.isCompleted = false
             objective.pathway = pathway
+        }
+    }
+    
+    func refreshPathways() {
+        let request = NSFetchRequest<Pathway>(entityName: "Pathway")
+        
+        do {
+            // Fetch fresh data from Core Data
+            viewContext.refreshAllObjects()
+            pathways = try viewContext.fetch(request)
+            objectWillChange.send()
+        } catch {
+            print("Error fetching pathways: \(error)")
         }
     }
 } 

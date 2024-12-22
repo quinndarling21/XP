@@ -67,10 +67,16 @@ class MainViewModel: ObservableObject {
                 user.currentXP = newUserXP
             }
             
-            // Save changes and notify observers
             try viewContext.save()
+            
+            // Ensure Core Data context is refreshed
+            viewContext.refresh(pathway, mergeChanges: true)
+            viewContext.refresh(user, mergeChanges: true)
+            
+            // Notify of changes
             objectWillChange.send()
             NotificationCenter.default.post(name: NSNotification.Name("UserXPDidChange"), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name("PathwayDidUpdate"), object: nil)
             
             // Generate new objectives if needed
             generateObjectives(for: pathway)
@@ -116,6 +122,17 @@ class MainViewModel: ObservableObject {
             objectWillChange.send()
         } catch {
             print("Error generating objectives: \(error)")
+        }
+    }
+    
+    func deletePathway(_ pathway: Pathway) {
+        viewContext.delete(pathway)
+        
+        do {
+            try viewContext.save()
+            NotificationCenter.default.post(name: NSNotification.Name("PathwayDidUpdate"), object: nil)
+        } catch {
+            print("Error deleting pathway: \(error)")
         }
     }
 } 

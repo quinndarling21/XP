@@ -3,13 +3,14 @@ import SwiftUI
 struct ObjectiveDetailView: View {
     let objective: Objective
     let onComplete: () -> Void
+    let pathwayColor: Color
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack(spacing: 24) {
             // Header
             Circle()
-                .fill(objective.isCompleted ? .green : .blue)
+                .fill(objective.isCompleted ? .green : pathwayColor)
                 .frame(width: 100, height: 100)
                 .overlay {
                     Image(systemName: objective.isCompleted ? "checkmark" : "star.fill")
@@ -37,6 +38,7 @@ struct ObjectiveDetailView: View {
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
+                .tint(pathwayColor)
                 .padding(.top)
             }
             
@@ -55,6 +57,7 @@ struct ObjectiveDetailView: View {
             isCompleted: false,
             order: 0
         ),
-        onComplete: {}
+        onComplete: {},
+        pathwayColor: .blue
     )
 } 

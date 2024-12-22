@@ -26,6 +26,7 @@
         <attribute name="currentXP" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="requiredXPForLevel" attributeType="Integer 32" defaultValueString="1000" usesScalarValueType="YES"/>
         <attribute name="objectivesCompleted" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="colorIndex" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="objectives" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="StoredObjective" inverseName="pathway" inverseEntity="StoredObjective"/>
     </entity>
 </model>

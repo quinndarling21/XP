@@ -3,12 +3,27 @@ import CoreData
 import SwiftUI
 
 extension Pathway {
+    static let pathwayColors: [Color] = [
+        .blue,
+        .purple,
+        .green,
+        .orange,
+        .pink,
+        .teal,
+        .indigo,
+        .red
+    ]
+    
     var pathwayColor: Color {
-        // Assign a unique color based on the pathway's ID or name
-        return Color.blue // Example color
+        Self.pathwayColors[Int(colorIndex)]
     }
     
-    static func create(in context: NSManagedObjectContext, name: String, description: String) -> Pathway {
+    static func create(
+        in context: NSManagedObjectContext,
+        name: String,
+        description: String,
+        colorIndex: Int
+    ) -> Pathway {
         let pathway = Pathway(context: context)
         pathway.id = UUID()
         pathway.name = name
@@ -17,6 +32,7 @@ extension Pathway {
         pathway.currentXP = 0
         pathway.requiredXPForLevel = 1000
         pathway.objectivesCompleted = 0
+        pathway.colorIndex = Int32(colorIndex)
         return pathway
     }
 } 
