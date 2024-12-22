@@ -34,8 +34,8 @@ extension Pathway {
         pathway.objectivesCompleted = 0
         pathway.colorIndex = Int32(colorIndex)
         
+        // First create cadence objectives if applicable
         if cadenceFrequency != .none {
-            // Create initial cycle with objectives
             let cycle = CadenceCycle.create(
                 in: context,
                 frequency: cadenceFrequency,
@@ -43,7 +43,7 @@ extension Pathway {
                 pathway: pathway
             )
             
-            // Generate initial objectives for the cycle
+            // Generate cycle objectives first (0 to n-1)
             for i in 0..<objectivesCount {
                 let objective = StoredObjective.create(
                     in: context,
@@ -52,6 +52,17 @@ extension Pathway {
                     cycle: cycle
                 )
             }
+        }
+        
+        // Then generate the additional 5 incomplete objectives
+        let startOrder = objectivesCount // Start after any cycle objectives
+        for i in 0..<5 {
+            let objective = StoredObjective.create(
+                in: context,
+                order: startOrder + i,
+                pathway: pathway,
+                cycle: nil
+            )
         }
         
         return pathway

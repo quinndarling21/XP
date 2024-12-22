@@ -115,15 +115,19 @@ class MainViewModel: ObservableObject {
     }
     
     func objectives(for pathway: Pathway) -> [Objective] {
-        // First, get objectives from active cycle
+        let request = NSFetchRequest<StoredObjective>(entityName: "StoredObjective")
+        
         if let activeCycle = pathway.activeCadenceCycle {
-            let cycleObjectives = getCurrentCycleObjectives(for: activeCycle)
-            return cycleObjectives.map { $0.objective }
+            // Get both cycle objectives AND non-cycle objectives
+            request.predicate = NSPredicate(
+                format: "pathway == %@ AND (cadenceCycle == %@ OR cadenceCycle == nil)",
+                pathway, activeCycle
+            )
+        } else {
+            // Just get all pathway objectives
+            request.predicate = NSPredicate(format: "pathway == %@", pathway)
         }
         
-        // If no active cycle, fall back to all pathway objectives
-        let request = NSFetchRequest<StoredObjective>(entityName: "StoredObjective")
-        request.predicate = NSPredicate(format: "pathway == %@", pathway)
         request.sortDescriptors = [NSSortDescriptor(keyPath: \StoredObjective.order, ascending: true)]
         
         do {
