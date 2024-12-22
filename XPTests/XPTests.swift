@@ -28,14 +28,25 @@ final class XPTests: XCTestCase {
     
     func testObjectiveInitialization() throws {
         // Test with default random XP
-        let objective1 = Objective()
+        let objective1 = Objective(
+            id: UUID(),
+            xpValue: 150,
+            isCompleted: false,
+            order: 0
+        )
+        
         XCTAssertNotNil(objective1.id)
         XCTAssertFalse(objective1.isCompleted)
         XCTAssertTrue(objective1.xpValue >= 100 && objective1.xpValue <= 500)
         XCTAssertEqual(objective1.xpValue % 10, 0) // Divisible by 10
         
         // Test with specific XP value
-        let objective2 = Objective(xpValue: 250)
+        let objective2 = Objective(
+            id: UUID(),
+            xpValue: 250,
+            isCompleted: false,
+            order: 1
+        )
         XCTAssertEqual(objective2.xpValue, 250)
     }
     

@@ -50,7 +50,12 @@ struct ObjectiveDetailView: View {
 
 #Preview {
     ObjectiveDetailView(
-        objective: Objective(xpValue: 250),
+        objective: Objective(
+            id: UUID(),
+            xpValue: 250,
+            isCompleted: false,
+            order: 0
+        ),
         onComplete: {}
     )
 } 

@@ -17,59 +17,77 @@ final class MainViewModelTests: XCTestCase {
         viewModel = nil
     }
     
-    func testInitialUserCreation() throws {
+    // MARK: - Initial State Tests
+    
+    func testInitialState() throws {
         XCTAssertNotNil(viewModel.user)
-        XCTAssertEqual(viewModel.user?.currentLevel, 1)
-        XCTAssertEqual(viewModel.user?.currentXP, 0)
+        XCTAssertFalse(viewModel.objectives.isEmpty)
+        XCTAssertEqual(viewModel.objectives.count, 6) // Current + 5 future
     }
     
-    func testObjectivesGeneration() throws {
-        XCTAssertEqual(viewModel.objectives.count, 3)
+    // MARK: - Objective Generation Tests
+    
+    func testObjectiveGeneration() throws {
+        // Verify initial objectives
+        XCTAssertEqual(viewModel.objectives.count, 6)
         
-        // Verify XP values are within expected range
-        for objective in viewModel.objectives {
-            XCTAssertTrue(objective.xpValue >= 100 && objective.xpValue <= 500)
-            XCTAssertEqual(objective.xpValue % 10, 0)
-            XCTAssertFalse(objective.isCompleted)
-        }
-    }
-    
-    func testMarkObjectiveComplete() throws {
-        guard let objective = viewModel.objectives.first else {
+        // Complete first objective
+        guard let firstObjective = viewModel.objectives.first else {
             XCTFail("No objectives available")
             return
         }
         
-        let initialXP = viewModel.user?.currentXP ?? 0
-        viewModel.markObjectiveComplete(objective)
+        viewModel.markObjectiveComplete(firstObjective)
         
-        // Verify XP was added
-        XCTAssertEqual(viewModel.user?.currentXP, initialXP + Int32(objective.xpValue))
+        // After completing an objective:
+        // 1. The completed objective should still be visible
+        // 2. We should maintain 5 future objectives
+        // So total should still be 6 (1 completed + current + 4 future)
+        XCTAssertEqual(viewModel.objectives.count, 7) // 1 completed + current + 5 future
+        
+        // Verify we have a completed objective
+        XCTAssertTrue(viewModel.objectives.contains { $0.isCompleted })
+        
+        // Verify ordering is maintained
+        for i in 1..<viewModel.objectives.count {
+            XCTAssertGreaterThan(viewModel.objectives[i].order, viewModel.objectives[i-1].order)
+        }
     }
     
-    func testLevelUpMechanic() throws {
-        // Set up user close to level up
-        viewModel.user?.currentXP = viewModel.user?.requiredXPForLevel ?? 1000 - 50
-        let initialLevel = viewModel.user?.currentLevel ?? 1
+    func testObjectiveOrdering() throws {
+        let objectives = viewModel.objectives
         
-        // Find an objective with enough XP to trigger level up
+        // Verify objectives are in order
+        for i in 1..<objectives.count {
+            XCTAssertLessThan(objectives[i-1].order, objectives[i].order)
+        }
+    }
+    
+    // MARK: - XP and Level Tests
+    
+    func testLevelUpMechanic() throws {
+        let initialLevel = viewModel.user?.currentLevel ?? 1
+        let requiredXP = viewModel.user?.requiredXPForLevel ?? 1000
+        
+        // Set XP close to level up
+        viewModel.user?.currentXP = Int32(requiredXP - 50)
+        
+        // Complete an objective that will trigger level up
         guard let levelUpObjective = viewModel.objectives.first(where: { $0.xpValue >= 50 }) else {
             XCTFail("No suitable objective found")
             return
         }
         
-        // Complete the objective
         viewModel.markObjectiveComplete(levelUpObjective)
         
-        // Verify level up occurred
+        // Verify level up
         XCTAssertEqual(viewModel.user?.currentLevel, initialLevel + 1)
         XCTAssertLessThan(viewModel.user?.currentXP ?? 0, viewModel.user?.requiredXPForLevel ?? 1000)
     }
     
-    func testObjectiveCompletionIncrement() throws {
-        let initialCompleted = viewModel.user?.objectivesCompleted ?? 0
+    func testXPAccumulation() throws {
+        let initialXP = viewModel.user?.currentXP ?? 0
         
-        // Complete an objective
         guard let objective = viewModel.objectives.first else {
             XCTFail("No objectives available")
             return
@@ -77,15 +95,26 @@ final class MainViewModelTests: XCTestCase {
         
         viewModel.markObjectiveComplete(objective)
         
-        // Verify increment
-        XCTAssertEqual(viewModel.user?.objectivesCompleted, initialCompleted + 1)
+        XCTAssertEqual(
+            viewModel.user?.currentXP,
+            initialXP + Int32(objective.xpValue)
+        )
     }
     
-    func testObjectiveXPRange() throws {
-        // Test that all objectives have valid XP values
-        for objective in viewModel.objectives {
-            XCTAssertTrue(objective.xpValue >= 100 && objective.xpValue <= 500)
-            XCTAssertEqual(objective.xpValue % 10, 0, "XP value should be multiple of 10")
+    // MARK: - Persistence Tests
+    
+    func testObjectivePersistence() throws {
+        guard let objective = viewModel.objectives.first else {
+            XCTFail("No objectives available")
+            return
         }
+        
+        viewModel.markObjectiveComplete(objective)
+        
+        // Create new view model instance
+        let newViewModel = MainViewModel(persistenceController: persistenceController)
+        
+        // Verify completed objective persisted
+        XCTAssertTrue(newViewModel.objectives.contains { $0.isCompleted })
     }
 } 

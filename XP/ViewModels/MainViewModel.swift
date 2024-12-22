@@ -9,6 +9,8 @@ class MainViewModel: ObservableObject {
     @Published private(set) var user: User?
     @Published private(set) var objectives: [Objective] = []
     
+    private let futureObjectivesCount = 5
+    
     init(persistenceController: PersistenceController = .shared) {
         self.persistenceController = persistenceController
         self.viewContext = persistenceController.container.viewContext
@@ -37,45 +39,77 @@ class MainViewModel: ObservableObject {
     }
     
     private func generateObjectives() {
-        // Generate 3 random objectives with XP values between 100-500 (multiples of 10)
-        objectives = (0..<3).map { _ in
-            Objective()
+        guard let user = user else { return }
+        
+        let completedCount = Int(user.objectivesCompleted)
+        let totalNeeded = completedCount + futureObjectivesCount + 1
+        
+        // Fetch existing objectives
+        let request = NSFetchRequest<StoredObjective>(entityName: "StoredObjective")
+        request.predicate = NSPredicate(format: "user == %@", user)
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \StoredObjective.order, ascending: true)]
+        
+        do {
+            let storedObjectives = try viewContext.fetch(request)
+            
+            // Calculate how many new objectives we need
+            let newObjectivesNeeded = totalNeeded - storedObjectives.count
+            
+            // Generate new objectives if needed
+            if newObjectivesNeeded > 0 {
+                let startOrder = storedObjectives.last?.order ?? -1
+                for i in 0..<newObjectivesNeeded {
+                    _ = StoredObjective.create(
+                        in: viewContext,
+                        order: Int(startOrder) + i + 1,
+                        user: user
+                    )
+                }
+                try viewContext.save()
+                
+                // Fetch again to get updated list
+                let updatedObjectives = try viewContext.fetch(request)
+                objectives = updatedObjectives.map { $0.objective }
+            } else {
+                objectives = storedObjectives.map { $0.objective }
+            }
+        } catch {
+            print("Error fetching/generating objectives: \(error)")
         }
     }
     
     // MARK: - User Actions
     
     func markObjectiveComplete(_ objective: Objective) {
-        guard let user = user,
-              !objective.isCompleted else { return }
+        guard let user = user else { return }
         
-        // Update objective state
-        if let index = objectives.firstIndex(where: { $0.id == objective.id }) {
-            objectives[index].isCompleted = true
-        }
+        // Find and update stored objective
+        let request = NSFetchRequest<StoredObjective>(entityName: "StoredObjective")
+        request.predicate = NSPredicate(format: "id == %@ AND user == %@", objective.id as CVarArg, user)
         
-        // Add XP
-        let newXP = user.currentXP + Int32(objective.xpValue)
-        
-        // Check for level up
-        if newXP >= user.requiredXPForLevel {
-            user.currentLevel += 1
-            user.currentXP = newXP - user.requiredXPForLevel
-            // Could also increase requiredXPForLevel for next level if desired
-            user.requiredXPForLevel += 500 // Simple increment for now
-        } else {
-            user.currentXP = newXP
-        }
-        
-        // Increment objectives completed
-        user.objectivesCompleted += 1
-        
-        // Save changes
         do {
+            let storedObjectives = try viewContext.fetch(request)
+            guard let storedObjective = storedObjectives.first else { return }
+            
+            storedObjective.isCompleted = true
+            
+            // Update user XP and level
+            let newXP = user.currentXP + storedObjective.xpValue
+            if newXP >= user.requiredXPForLevel {
+                user.currentLevel += 1
+                user.currentXP = newXP - user.requiredXPForLevel
+                user.requiredXPForLevel += 500
+            } else {
+                user.currentXP = newXP
+            }
+            
+            user.objectivesCompleted += 1
+            
             try viewContext.save()
+            generateObjectives()
             objectWillChange.send()
         } catch {
-            print("Error saving completion: \(error)")
+            print("Error completing objective: \(error)")
         }
     }
 } 

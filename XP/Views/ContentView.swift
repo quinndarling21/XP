@@ -6,23 +6,30 @@ struct ContentView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            // Objectives List
-            ScrollView {
-                LazyVGrid(columns: [
-                    GridItem(.adaptive(minimum: 150, maximum: 200))
-                ], spacing: 16) {
-                    ForEach(viewModel.objectives) { objective in
-                        ObjectiveCard(objective: objective) {
-                            viewModel.markObjectiveComplete(objective)
+            ScrollViewReader { proxy in
+                ScrollView {
+                    LazyVStack(spacing: 24) {
+                        ForEach(viewModel.objectives) { objective in
+                            ObjectiveNode(
+                                objective: objective,
+                                isCurrentTask: objective.order == Int(viewModel.user?.objectivesCompleted ?? 0)
+                            ) {
+                                viewModel.markObjectiveComplete(objective)
+                            }
+                            .id(objective.id)
                         }
                     }
+                    .padding()
                 }
-                .padding()
+                .onAppear {
+                    if let currentObjective = viewModel.objectives.first(where: { $0.order == Int(viewModel.user?.objectivesCompleted ?? 0) }) {
+                        proxy.scrollTo(currentObjective.id, anchor: .top)
+                    }
+                }
             }
             
             Spacer()
             
-            // XP Progress Bar
             XPProgressBar(
                 currentXP: viewModel.user?.currentXP ?? 0,
                 requiredXP: viewModel.user?.requiredXPForLevel ?? 1000,
@@ -32,37 +39,47 @@ struct ContentView: View {
     }
 }
 
-// MARK: - Supporting Views
-
-struct ObjectiveCard: View {
+struct ObjectiveNode: View {
     let objective: Objective
+    let isCurrentTask: Bool
     let onComplete: () -> Void
     @State private var showingDetail = false
+    
+    var nodeColor: Color {
+        if objective.isCompleted {
+            return .green
+        }
+        return isCurrentTask ? .blue : .gray.opacity(0.5)
+    }
     
     var body: some View {
         Button {
             showingDetail = true
         } label: {
-            VStack(spacing: 12) {
+            VStack(spacing: 8) {
                 Circle()
-                    .fill(objective.isCompleted ? .green : .blue)
+                    .fill(nodeColor)
                     .frame(width: 60, height: 60)
                     .overlay {
-                        Image(systemName: objective.isCompleted ? "checkmark" : "star.fill")
-                            .foregroundStyle(.white)
+                        if objective.isCompleted {
+                            Image(systemName: "checkmark")
+                                .foregroundStyle(.white)
+                        } else if isCurrentTask {
+                            Text("START")
+                                .font(.caption.bold())
+                                .foregroundStyle(.white)
+                        } else {
+                            Image(systemName: "star.fill")
+                                .foregroundStyle(.white.opacity(0.3))
+                        }
                     }
                 
                 Text("\(objective.xpValue) XP")
-                    .font(.headline)
+                    .font(.caption)
+                    .foregroundStyle(objective.isCompleted || isCurrentTask ? .primary : .secondary)
             }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(.background)
-                    .shadow(radius: 2)
-            )
         }
-        .accessibilityIdentifier("objective-card")
+        .disabled(!isCurrentTask && !objective.isCompleted)
         .sheet(isPresented: $showingDetail) {
             ObjectiveDetailView(
                 objective: objective,
