@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    let pathway: Pathway
+
     @StateObject private var viewModel = MainViewModel()
     @Environment(\.managedObjectContext) private var viewContext
     
@@ -9,12 +11,12 @@ struct ContentView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     LazyVStack(spacing: 24) {
-                        ForEach(viewModel.objectives) { objective in
+                        ForEach(viewModel.objectives(for: pathway)) { objective in
                             ObjectiveNode(
                                 objective: objective,
-                                isCurrentTask: objective.order == Int(viewModel.user?.objectivesCompleted ?? 0)
+                                isCurrentTask: objective.order == Int(pathway.objectivesCompleted)
                             ) {
-                                viewModel.markObjectiveComplete(objective)
+                                viewModel.markObjectiveComplete(objective, in: pathway)
                             }
                             .id(objective.id)
                         }
@@ -22,16 +24,16 @@ struct ContentView: View {
                     .padding()
                 }
                 .onAppear {
-                    if let currentObjective = viewModel.objectives.first(where: { $0.order == Int(viewModel.user?.objectivesCompleted ?? 0) }) {
+                    if let currentObjective = viewModel.objectives(for: pathway).first(where: { $0.order == Int(pathway.objectivesCompleted) }) {
                         proxy.scrollTo(currentObjective.id, anchor: .top)
                     }
                 }
             }
             
             XPProgressBar(
-                currentXP: viewModel.user?.currentXP ?? 0,
-                requiredXP: viewModel.user?.requiredXPForLevel ?? 1000,
-                level: viewModel.user?.currentLevel ?? 1
+                currentXP: pathway.currentXP,
+                requiredXP: pathway.requiredXPForLevel,
+                level: pathway.currentLevel
             )
         }
     }
@@ -117,6 +119,12 @@ struct XPProgressBar: View {
 }
 
 #Preview {
-    ContentView()
-        .environment(\.managedObjectContext, PersistenceController(inMemory: true).container.viewContext)
+    // Create a sample Pathway for preview
+    let context = PersistenceController(inMemory: true).container.viewContext
+    let samplePathway = Pathway(context: context)
+    samplePathway.name = "Sample Pathway"
+    samplePathway.descriptionText = "A sample pathway for testing."
+    
+    return ContentView(pathway: samplePathway)
+        .environment(\.managedObjectContext, context)
 } 

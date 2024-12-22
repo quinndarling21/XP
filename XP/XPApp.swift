@@ -14,7 +14,7 @@ struct XPApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            PathwayListView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

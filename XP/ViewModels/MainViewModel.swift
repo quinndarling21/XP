@@ -7,19 +7,13 @@ class MainViewModel: ObservableObject {
     private var viewContext: NSManagedObjectContext
     
     @Published private(set) var user: User?
-    @Published private(set) var objectives: [Objective] = []
-    
-    private let futureObjectivesCount = 5
     
     init(persistenceController: PersistenceController = .shared) {
         self.persistenceController = persistenceController
         self.viewContext = persistenceController.container.viewContext
         
         fetchUserData()
-        generateObjectives()
     }
-    
-    // MARK: - Data Management
     
     func fetchUserData() {
         let request = NSFetchRequest<User>(entityName: "User")
@@ -38,54 +32,11 @@ class MainViewModel: ObservableObject {
         }
     }
     
-    private func generateObjectives() {
+    func markObjectiveComplete(_ objective: Objective, in pathway: Pathway) {
         guard let user = user else { return }
         
-        let completedCount = Int(user.objectivesCompleted)
-        let totalNeeded = completedCount + futureObjectivesCount + 1
-        
-        // Fetch existing objectives
         let request = NSFetchRequest<StoredObjective>(entityName: "StoredObjective")
-        request.predicate = NSPredicate(format: "user == %@", user)
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \StoredObjective.order, ascending: true)]
-        
-        do {
-            let storedObjectives = try viewContext.fetch(request)
-            
-            // Calculate how many new objectives we need
-            let newObjectivesNeeded = totalNeeded - storedObjectives.count
-            
-            // Generate new objectives if needed
-            if newObjectivesNeeded > 0 {
-                let startOrder = storedObjectives.last?.order ?? -1
-                for i in 0..<newObjectivesNeeded {
-                    _ = StoredObjective.create(
-                        in: viewContext,
-                        order: Int(startOrder) + i + 1,
-                        user: user
-                    )
-                }
-                try viewContext.save()
-                
-                // Fetch again to get updated list
-                let updatedObjectives = try viewContext.fetch(request)
-                objectives = updatedObjectives.map { $0.objective }
-            } else {
-                objectives = storedObjectives.map { $0.objective }
-            }
-        } catch {
-            print("Error fetching/generating objectives: \(error)")
-        }
-    }
-    
-    // MARK: - User Actions
-    
-    func markObjectiveComplete(_ objective: Objective) {
-        guard let user = user else { return }
-        
-        // Find and update stored objective
-        let request = NSFetchRequest<StoredObjective>(entityName: "StoredObjective")
-        request.predicate = NSPredicate(format: "id == %@ AND user == %@", objective.id as CVarArg, user)
+        request.predicate = NSPredicate(format: "id == %@", objective.id as CVarArg)
         
         do {
             let storedObjectives = try viewContext.fetch(request)
@@ -93,23 +44,78 @@ class MainViewModel: ObservableObject {
             
             storedObjective.isCompleted = true
             
-            // Update user XP and level
-            let newXP = user.currentXP + storedObjective.xpValue
-            if newXP >= user.requiredXPForLevel {
-                user.currentLevel += 1
-                user.currentXP = newXP - user.requiredXPForLevel
-                user.requiredXPForLevel += 500
+            // Update pathway XP and level
+            let newPathwayXP = pathway.currentXP + storedObjective.xpValue
+            if newPathwayXP >= pathway.requiredXPForLevel {
+                pathway.currentLevel += 1
+                pathway.currentXP = newPathwayXP - pathway.requiredXPForLevel
+                pathway.requiredXPForLevel += 500
             } else {
-                user.currentXP = newXP
+                pathway.currentXP = newPathwayXP
             }
             
-            user.objectivesCompleted += 1
+            // Update completed objectives count
+            pathway.objectivesCompleted += 1
             
+            // Update user XP and level
+            let newUserXP = user.currentXP + storedObjective.xpValue
+            if newUserXP >= user.requiredXPForLevel {
+                user.currentLevel += 1
+                user.currentXP = newUserXP - user.requiredXPForLevel
+                user.requiredXPForLevel += 500
+            } else {
+                user.currentXP = newUserXP
+            }
+            
+            // Save changes and notify observers
             try viewContext.save()
-            generateObjectives()
             objectWillChange.send()
+            NotificationCenter.default.post(name: NSNotification.Name("UserXPDidChange"), object: nil)
+            
+            // Generate new objectives if needed
+            generateObjectives(for: pathway)
         } catch {
             print("Error completing objective: \(error)")
+        }
+    }
+    
+    func objectives(for pathway: Pathway) -> [Objective] {
+        let request = NSFetchRequest<StoredObjective>(entityName: "StoredObjective")
+        request.predicate = NSPredicate(format: "pathway == %@", pathway)
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \StoredObjective.order, ascending: true)]
+        
+        do {
+            let storedObjectives = try viewContext.fetch(request)
+            return storedObjectives.map { $0.objective }
+        } catch {
+            print("Error fetching objectives: \(error)")
+            return []
+        }
+    }
+    
+    private func generateObjectives(for pathway: Pathway) {
+        let request = NSFetchRequest<StoredObjective>(entityName: "StoredObjective")
+        request.predicate = NSPredicate(format: "pathway == %@", pathway)
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \StoredObjective.order, ascending: true)]
+        
+        do {
+            let storedObjectives = try viewContext.fetch(request)
+            
+            // Get the highest order number
+            let highestOrder = storedObjectives.map { $0.order }.max() ?? -1
+            
+            // Create one new objective with the next order number
+            let objective = StoredObjective(context: viewContext)
+            objective.id = UUID()
+            objective.order = highestOrder + 1
+            objective.xpValue = Int32(Int.random(in: 10...50) * 10)
+            objective.isCompleted = false
+            objective.pathway = pathway
+            
+            try viewContext.save()
+            objectWillChange.send()
+        } catch {
+            print("Error generating objectives: \(error)")
         }
     }
 } 

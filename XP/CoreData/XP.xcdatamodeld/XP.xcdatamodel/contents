@@ -6,6 +6,7 @@
         <attribute name="order" attributeType="Integer 32" usesScalarValueType="YES"/>
         <attribute name="xpValue" attributeType="Integer 32" usesScalarValueType="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="objectives" inverseEntity="User"/>
+        <relationship name="pathway" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pathway" inverseName="objectives" inverseEntity="Pathway"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
         <attribute name="currentLevel" attributeType="Integer 32" defaultValueString="1" usesScalarValueType="YES"/>
@@ -16,5 +17,15 @@
         <attribute name="streakEndDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="streakStartDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="objectives" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="StoredObjective" inverseName="user" inverseEntity="StoredObjective"/>
+    </entity>
+    <entity name="Pathway" representedClassName="Pathway" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String" usesScalarValueType="NO"/>
+        <attribute name="descriptionText" attributeType="String" usesScalarValueType="NO"/>
+        <attribute name="currentLevel" attributeType="Integer 32" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="currentXP" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="requiredXPForLevel" attributeType="Integer 32" defaultValueString="1000" usesScalarValueType="YES"/>
+        <attribute name="objectivesCompleted" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="objectives" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="StoredObjective" inverseName="pathway" inverseEntity="StoredObjective"/>
     </entity>
 </model>

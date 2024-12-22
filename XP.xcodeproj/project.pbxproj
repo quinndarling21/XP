@@ -21,6 +21,10 @@
 		57875EF82D177AB50011A52D /* Views.md in Resources */ = {isa = PBXBuildFile; fileRef = 57875EF72D177AB50011A52D /* Views.md */; };
 		57875EFA2D177DF10011A52D /* ObjectiveDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875EF92D177DF10011A52D /* ObjectiveDetailView.swift */; };
 		57875EFC2D1789E10011A52D /* StoredObjective+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875EFB2D1789E10011A52D /* StoredObjective+Extensions.swift */; };
+		57875EFE2D17AA9C0011A52D /* Pathway+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875EFD2D17AA9C0011A52D /* Pathway+Extensions.swift */; };
+		57875F002D17AAB80011A52D /* PathwayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875EFF2D17AAB80011A52D /* PathwayViewModel.swift */; };
+		57875F022D17AAC30011A52D /* PathwayListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875F012D17AAC30011A52D /* PathwayListView.swift */; };
+		57875F042D17AC300011A52D /* AddPathwayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875F032D17AC300011A52D /* AddPathwayView.swift */; };
 		57DCFDCD2D175642005D628F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57DCFDCC2D175642005D628F /* Assets.xcassets */; };
 		57DCFDD02D175642005D628F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57DCFDCF2D175642005D628F /* Preview Assets.xcassets */; };
 		57DCFDDA2D175642005D628F /* XPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DCFDD92D175642005D628F /* XPTests.swift */; };
@@ -59,6 +63,10 @@
 		57875EF72D177AB50011A52D /* Views.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Views.md; sourceTree = "<group>"; };
 		57875EF92D177DF10011A52D /* ObjectiveDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectiveDetailView.swift; sourceTree = "<group>"; };
 		57875EFB2D1789E10011A52D /* StoredObjective+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StoredObjective+Extensions.swift"; sourceTree = "<group>"; };
+		57875EFD2D17AA9C0011A52D /* Pathway+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Pathway+Extensions.swift"; sourceTree = "<group>"; };
+		57875EFF2D17AAB80011A52D /* PathwayViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathwayViewModel.swift; sourceTree = "<group>"; };
+		57875F012D17AAC30011A52D /* PathwayListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathwayListView.swift; sourceTree = "<group>"; };
+		57875F032D17AC300011A52D /* AddPathwayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPathwayView.swift; sourceTree = "<group>"; };
 		57DCFDC52D175641005D628F /* XP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57DCFDC82D175641005D628F /* XPApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPApp.swift; sourceTree = "<group>"; };
 		57DCFDCC2D175642005D628F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -119,6 +127,8 @@
 		57875EDF2D176C190011A52D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				57875F032D17AC300011A52D /* AddPathwayView.swift */,
+				57875F012D17AAC30011A52D /* PathwayListView.swift */,
 				57875EF92D177DF10011A52D /* ObjectiveDetailView.swift */,
 				57875EDE2D176C190011A52D /* ContentView.swift */,
 			);
@@ -128,6 +138,7 @@
 		57875EE32D1774800011A52D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				57875EFD2D17AA9C0011A52D /* Pathway+Extensions.swift */,
 				57875EFB2D1789E10011A52D /* StoredObjective+Extensions.swift */,
 				57875EE52D1777F00011A52D /* User+Extensions.swift */,
 				57875EE22D1774800011A52D /* Objective.swift */,
@@ -138,6 +149,7 @@
 		57875EE82D1779550011A52D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				57875EFF2D17AAB80011A52D /* PathwayViewModel.swift */,
 				57875EE72D1779550011A52D /* MainViewModel.swift */,
 			);
 			path = ViewModels;
@@ -339,11 +351,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				57875EE92D1779550011A52D /* MainViewModel.swift in Sources */,
+				57875F042D17AC300011A52D /* AddPathwayView.swift in Sources */,
+				57875F022D17AAC30011A52D /* PathwayListView.swift in Sources */,
 				57875EE62D1777F00011A52D /* User+Extensions.swift in Sources */,
+				57875F002D17AAB80011A52D /* PathwayViewModel.swift in Sources */,
 				57875EFC2D1789E10011A52D /* StoredObjective+Extensions.swift in Sources */,
 				57875EE42D1774800011A52D /* Objective.swift in Sources */,
 				57875ED42D1766710011A52D /* PersistenceController.swift in Sources */,
 				57875EE02D176C190011A52D /* ContentView.swift in Sources */,
+				57875EFE2D17AA9C0011A52D /* Pathway+Extensions.swift in Sources */,
 				57875EFA2D177DF10011A52D /* ObjectiveDetailView.swift in Sources */,
 				57875EDD2D17681F0011A52D /* XP.xcdatamodeld in Sources */,
 				57875EE12D176DEC0011A52D /* XPApp.swift in Sources */,

@@ -37,3 +37,10 @@ Tests will be organized in:
 - Unit Tests for ViewModels
 - UI Tests for View interactions
 - Core Data Tests for persistence logic 
+
+## New Features
+
+### Pathways
+- `Pathway` model with attributes for name, description, and XP tracking.
+- `PathwayViewModel` for managing pathways.
+- `PathwayListView` for displaying and navigating pathways.
