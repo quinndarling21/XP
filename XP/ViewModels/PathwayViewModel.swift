@@ -44,21 +44,32 @@ class PathwayViewModel: ObservableObject {
         }
     }
     
-    func addPathway(name: String, description: String, colorIndex: Int) {
-        let newPathway = Pathway.create(
+    func addPathway(
+        name: String,
+        description: String,
+        colorIndex: Int,
+        cadenceFrequency: CadenceFrequency = .none,
+        objectivesCount: Int = 0
+    ) {
+        let pathway = Pathway.create(
             in: viewContext,
             name: name,
             description: description,
-            colorIndex: colorIndex
+            colorIndex: colorIndex,
+            cadenceFrequency: cadenceFrequency,
+            objectivesCount: objectivesCount
         )
-        pathways.append(newPathway)
         
-        generateObjectives(for: newPathway)
+        if cadenceFrequency == .none {
+            generateObjectives(for: pathway)
+        }
         
         do {
             try viewContext.save()
+            pathways.append(pathway)
+            objectWillChange.send()
         } catch {
-            print("Error saving new pathway: \(error)")
+            print("Error saving pathway: \(error)")
         }
     }
     
@@ -73,8 +84,8 @@ class PathwayViewModel: ObservableObject {
         }
     }
     
-    private func generateObjectives(for pathway: Pathway) {
-        for i in 0..<5 {
+    private func generateObjectives(for pathway: Pathway, count: Int = 5) {
+        for i in 0..<count {
             let objective = StoredObjective(context: viewContext)
             objective.id = UUID()
             objective.order = Int32(i)

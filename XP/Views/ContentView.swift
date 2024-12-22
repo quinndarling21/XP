@@ -131,6 +131,12 @@ struct ContentView: View {
                         .padding()
                         .background(pathway.pathwayColor)
                     
+                    // Cycle Progress (if active)
+                    if let activeCycle = pathway.activeCadenceCycle {
+                        CycleProgressView(pathway: pathway, cycle: activeCycle)
+                            .padding(.vertical)
+                    }
+                    
                     ScrollViewReader { proxy in
                         ScrollView {
                             LazyVStack(spacing: 24) {
@@ -138,35 +144,16 @@ struct ContentView: View {
                                     ObjectiveNode(
                                         objective: objective,
                                         isCurrentTask: objective.order == Int(pathway.objectivesCompleted),
+                                        pathwayColor: pathway.pathwayColor,
                                         onComplete: {
                                             viewModel.markObjectiveComplete(objective, in: pathway)
                                             refreshPathway()
-                                        },
-                                        pathwayColor: pathway.pathwayColor
+                                        }
                                     )
                                     .id(objective.id)
-                                    .overlay {
-                                        if objective.order == Int(pathway.objectivesCompleted) {
-                                            GeometryReader { geo in
-                                                Color.clear
-                                                    .preference(
-                                                        key: ViewPositionKey.self,
-                                                        value: geo.frame(in: .global).minY
-                                                    )
-                                            }
-                                        }
-                                    }
                                 }
                             }
                             .padding()
-                            .onPreferenceChange(ViewPositionKey.self) { position in
-                                startButtonPosition = position
-                            }
-                        }
-                        .onAppear {
-                            if let currentObjective = viewModel.objectives(for: pathway).first(where: { $0.order == Int(pathway.objectivesCompleted) }) {
-                                proxy.scrollTo(currentObjective.id, anchor: .top)
-                            }
                         }
                     }
                     
@@ -225,18 +212,10 @@ struct ContentView: View {
 struct ObjectiveNode: View {
     let objective: Objective
     let isCurrentTask: Bool
-    let onComplete: () -> Void
     let pathwayColor: Color
-    @State private var showingDetail = false
+    let onComplete: () -> Void
     
-    var nodeColor: LinearGradient {
-        if objective.isCompleted {
-            return LinearGradient(colors: [.green, .mint], startPoint: .top, endPoint: .bottom)
-        }
-        return isCurrentTask ? 
-            LinearGradient(colors: [pathwayColor, pathwayColor.opacity(0.8)], startPoint: .top, endPoint: .bottom) : 
-            LinearGradient(colors: [.gray.opacity(0.5), .gray], startPoint: .top, endPoint: .bottom)
-    }
+    @State private var showingDetail = false
     
     var body: some View {
         Button {
@@ -261,6 +240,13 @@ struct ObjectiveNode: View {
                                 .foregroundStyle(.white.opacity(0.3))
                         }
                     }
+                    .overlay {
+                        if objective.isInCurrentCycle {
+                            Circle()
+                                .stroke(pathwayColor, lineWidth: 2)
+                                .shadow(color: pathwayColor.opacity(0.5), radius: glowRadius)
+                        }
+                    }
                 
                 Text("\(objective.xpValue) XP")
                     .font(.caption2)
@@ -275,6 +261,19 @@ struct ObjectiveNode: View {
                 pathwayColor: pathwayColor
             )
         }
+    }
+    
+    private var glowRadius: CGFloat {
+        objective.isInCurrentCycle ? 10 : 0
+    }
+    
+    private var nodeColor: LinearGradient {
+        if objective.isCompleted {
+            return LinearGradient(colors: [.green, .mint], startPoint: .top, endPoint: .bottom)
+        }
+        return isCurrentTask ? 
+            LinearGradient(colors: [pathwayColor, pathwayColor.opacity(0.8)], startPoint: .top, endPoint: .bottom) : 
+            LinearGradient(colors: [.gray.opacity(0.5), .gray], startPoint: .top, endPoint: .bottom)
     }
 }
 

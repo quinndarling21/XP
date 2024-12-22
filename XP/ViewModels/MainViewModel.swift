@@ -8,11 +8,21 @@ class MainViewModel: ObservableObject {
     
     @Published private(set) var user: User?
     
+    private let cadenceManager = CadenceManager.shared
+    
     init(persistenceController: PersistenceController = .shared) {
         self.persistenceController = persistenceController
         self.viewContext = persistenceController.container.viewContext
         
         fetchUserData()
+        
+        // Set up observation of app state
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
     }
     
     func fetchUserData() {
@@ -42,9 +52,10 @@ class MainViewModel: ObservableObject {
             let storedObjectives = try viewContext.fetch(request)
             guard let storedObjective = storedObjectives.first else { return }
             
+            // 1. Mark objective as completed
             storedObjective.isCompleted = true
             
-            // Update pathway XP and level
+            // 2. Update pathway XP and level
             let newPathwayXP = pathway.currentXP + storedObjective.xpValue
             if newPathwayXP >= pathway.requiredXPForLevel {
                 pathway.currentLevel += 1
@@ -54,10 +65,7 @@ class MainViewModel: ObservableObject {
                 pathway.currentXP = newPathwayXP
             }
             
-            // Update completed objectives count
-            pathway.objectivesCompleted += 1
-            
-            // Update user XP and level
+            // 3. Update user XP and level
             let newUserXP = user.currentXP + storedObjective.xpValue
             if newUserXP >= user.requiredXPForLevel {
                 user.currentLevel += 1
@@ -67,25 +75,53 @@ class MainViewModel: ObservableObject {
                 user.currentXP = newUserXP
             }
             
+            // 4. Update completed objectives count for pathway
+            pathway.objectivesCompleted += 1
+            
+            // 5. Save changes to Core Data
             try viewContext.save()
             
-            // Ensure Core Data context is refreshed
+            // 6. Refresh Core Data objects
             viewContext.refresh(pathway, mergeChanges: true)
             viewContext.refresh(user, mergeChanges: true)
+            if let cycle = storedObjective.cadenceCycle {
+                viewContext.refresh(cycle, mergeChanges: true)
+            }
             
-            // Notify of changes
+            // 7. Notify of changes
             objectWillChange.send()
             NotificationCenter.default.post(name: NSNotification.Name("UserXPDidChange"), object: nil)
             NotificationCenter.default.post(name: NSNotification.Name("PathwayDidUpdate"), object: nil)
             
-            // Generate new objectives if needed
-            generateObjectives(for: pathway)
+            // 8. Check if all cycle objectives are complete
+            if let cycle = storedObjective.cadenceCycle, cycle.isActive {
+                checkCycleCompletion(cycle)
+            }
+            
         } catch {
             print("Error completing objective: \(error)")
         }
     }
     
+    private func checkCycleCompletion(_ cycle: CadenceCycle) {
+        // This method can be used to trigger any special behavior when all objectives in a cycle are completed
+        if cycle.completedObjectivesCount == cycle.count {
+            NotificationCenter.default.post(
+                name: NSNotification.Name("CycleCompleted"),
+                object: nil,
+                userInfo: ["cycleID": cycle.id as Any]
+            )
+        }
+    }
+    
     func objectives(for pathway: Pathway) -> [Objective] {
+        // First, get objectives from active cycle
+        if let activeCycle = pathway.activeCadenceCycle {
+            let cycleObjectives = getCurrentCycleObjectives(for: activeCycle)
+            return cycleObjectives.map { $0.objective }
+        }
+        
+        // If no active cycle, fall back to all pathway objectives
         let request = NSFetchRequest<StoredObjective>(entityName: "StoredObjective")
         request.predicate = NSPredicate(format: "pathway == %@", pathway)
         request.sortDescriptors = [NSSortDescriptor(keyPath: \StoredObjective.order, ascending: true)]
@@ -95,6 +131,19 @@ class MainViewModel: ObservableObject {
             return storedObjectives.map { $0.objective }
         } catch {
             print("Error fetching objectives: \(error)")
+            return []
+        }
+    }
+    
+    private func getCurrentCycleObjectives(for cycle: CadenceCycle) -> [StoredObjective] {
+        let request = NSFetchRequest<StoredObjective>(entityName: "StoredObjective")
+        request.predicate = NSPredicate(format: "cadenceCycle == %@", cycle)
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \StoredObjective.order, ascending: true)]
+        
+        do {
+            return try viewContext.fetch(request)
+        } catch {
+            print("Error fetching cycle objectives: \(error)")
             return []
         }
     }
@@ -134,5 +183,19 @@ class MainViewModel: ObservableObject {
         } catch {
             print("Error deleting pathway: \(error)")
         }
+    }
+    
+    func checkCadenceResets() {
+        cadenceManager.checkAndUpdateCycles(in: viewContext)
+        // Refresh UI after potential updates
+        objectWillChange.send()
+    }
+    
+    @objc private func appDidBecomeActive() {
+        checkCadenceResets()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 } 
