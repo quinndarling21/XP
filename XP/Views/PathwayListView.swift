@@ -37,6 +37,10 @@ struct PathwayListView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
+                #if DEBUG
+                DebugTimeView()
+                #endif
+                
                 // App Title
                 Text("XP")
                     .font(.system(size: 36, weight: .bold))

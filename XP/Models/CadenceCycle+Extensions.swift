@@ -49,7 +49,7 @@ extension CadenceCycle {
     ) -> CadenceCycle {
         let cycle = CadenceCycle(context: context)
         cycle.id = UUID()
-        cycle.startDate = Date()
+        cycle.startDate = Date.now
         cycle.endDate = CadenceManager.shared.calculateNextEndDate(from: cycle.startDate!, frequency: frequency)
         cycle.frequency = frequency.rawValue
         cycle.count = Int32(count)
@@ -62,7 +62,7 @@ extension CadenceCycle {
     
     var isExpired: Bool {
         guard let endDate = endDate else { return false }
-        return Date() >= endDate
+        return Date.now >= endDate
     }
     
     var completedObjectivesCount: Int {
@@ -76,6 +76,6 @@ extension CadenceCycle {
     
     var timeUntilReset: TimeInterval? {
         guard let endDate = endDate else { return nil }
-        return endDate.timeIntervalSince(Date())
+        return endDate.timeIntervalSince(Date.now)
     }
 } 
