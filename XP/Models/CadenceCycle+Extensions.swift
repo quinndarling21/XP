@@ -50,12 +50,13 @@ extension CadenceCycle {
         let cycle = CadenceCycle(context: context)
         cycle.id = UUID()
         cycle.startDate = Date.now
-        cycle.endDate = CadenceManager.shared.calculateNextEndDate(from: cycle.startDate!, frequency: frequency)
+        cycle.endDate = CadenceTimeframe.nextStartDate(after: cycle.startDate!, frequency: frequency)
         cycle.frequency = frequency.rawValue
         cycle.count = Int32(count)
         cycle.isActive = true
         cycle.pathway = pathway
         cycle.activeInPathway = pathway
+        cycle.currentStreak = 0
         
         return cycle
     }
@@ -77,5 +78,40 @@ extension CadenceCycle {
     var timeUntilReset: TimeInterval? {
         guard let endDate = endDate else { return nil }
         return endDate.timeIntervalSince(Date.now)
+    }
+    
+    func updateForNewCycle(availableObjectives: [StoredObjective]) {
+        // Clear old objective associations
+        objectives?.forEach { objective in
+            (objective as? StoredObjective)?.cadenceCycle = nil
+        }
+        
+        // Select next n incomplete objectives
+        let nextObjectives = availableObjectives
+            .filter { !$0.isCompleted && $0.cadenceCycle == nil }
+            .prefix(Int(count))
+        
+        // Associate new objectives with this cycle
+        nextObjectives.forEach { objective in
+            objective.cadenceCycle = self
+        }
+        
+        // Update dates
+        startDate = Date.now
+        endDate = CadenceTimeframe.nextStartDate(after: startDate!, frequency: cadenceFrequency)
+        
+        // Update streak based on previous cycle completion
+        if completedObjectivesCount >= Int(count) {
+            currentStreak += 1
+            lastCompletedDate = Date.now
+        } else {
+            currentStreak = 0
+            lastCompletedDate = nil
+        }
+        
+        // Verify we have enough objectives
+        if nextObjectives.count < count {
+            print("⚠️ Warning: Not enough available objectives for new cycle. Expected: \(count), Got: \(nextObjectives.count)")
+        }
     }
 } 

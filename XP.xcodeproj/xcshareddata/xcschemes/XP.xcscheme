@@ -77,7 +77,7 @@
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "RESET_TESTING_DATE"
-            value = "2024-12-23T09:00:00Z"
+            value = "2025-01-08T09:00:00Z"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>

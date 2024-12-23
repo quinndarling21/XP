@@ -2,10 +2,8 @@ import Foundation
 
 extension Date {
     static var now: Date {
-        print("Date.now called")
         
         if let dateString = ProcessInfo.processInfo.environment["RESET_TESTING_DATE"] {
-            print(" Environment variable found: \(dateString)")
             
             let formatter = ISO8601DateFormatter()
             formatter.formatOptions = [
@@ -17,7 +15,6 @@ extension Date {
             ]
             
             if let date = formatter.date(from: dateString) {
-                print("✅ Successfully parsed date: \(date)")
                 return date
             } else {
                 print("❌ Failed to parse date string: \(dateString)")

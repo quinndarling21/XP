@@ -33,10 +33,12 @@
 		57DCFDE62D175642005D628F /* XPUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DCFDE52D175642005D628F /* XPUITestsLaunchTests.swift */; };
 		57DD1C162D193BB8004C9950 /* Date+Testing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DD1C142D193BB8004C9950 /* Date+Testing.swift */; };
 		57DD1C182D193C2A004C9950 /* DebugTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DD1C172D193C2A004C9950 /* DebugTimeView.swift */; };
+		57DD1C1A2D1940C7004C9950 /* CadenceTimeframeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DD1C192D1940C7004C9950 /* CadenceTimeframeTests.swift */; };
+		57DD1C1C2D19413D004C9950 /* CadenceTimeframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DD1C1B2D19413D004C9950 /* CadenceTimeframe.swift */; };
+		57DD1C1E2D1943BF004C9950 /* CadenceCycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DD1C1D2D1943BF004C9950 /* CadenceCycleTests.swift */; };
 		57F71AD82D18ABDB00C57C2E /* CadenceCycle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F71AD72D18ABDB00C57C2E /* CadenceCycle+Extensions.swift */; };
 		57F71ADA2D18AC4700C57C2E /* CadenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F71AD92D18AC4700C57C2E /* CadenceManager.swift */; };
 		57F71ADC2D18AD2400C57C2E /* CycleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F71ADB2D18AD2400C57C2E /* CycleProgressView.swift */; };
-		57F71ADE2D18AF1C00C57C2E /* CadenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F71ADD2D18AF1C00C57C2E /* CadenceViewModel.swift */; };
 		57F71AE12D18AFC800C57C2E /* CadenceSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F71ADF2D18AFC800C57C2E /* CadenceSettingsView.swift */; };
 		57F71AE22D18AFC800C57C2E /* EditCadenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F71AE02D18AFC800C57C2E /* EditCadenceView.swift */; };
 /* End PBXBuildFile section */
@@ -88,10 +90,12 @@
 		57DCFDE52D175642005D628F /* XPUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		57DD1C142D193BB8004C9950 /* Date+Testing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Testing.swift"; sourceTree = "<group>"; };
 		57DD1C172D193C2A004C9950 /* DebugTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugTimeView.swift; sourceTree = "<group>"; };
+		57DD1C192D1940C7004C9950 /* CadenceTimeframeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CadenceTimeframeTests.swift; sourceTree = "<group>"; };
+		57DD1C1B2D19413D004C9950 /* CadenceTimeframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CadenceTimeframe.swift; sourceTree = "<group>"; };
+		57DD1C1D2D1943BF004C9950 /* CadenceCycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CadenceCycleTests.swift; sourceTree = "<group>"; };
 		57F71AD72D18ABDB00C57C2E /* CadenceCycle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CadenceCycle+Extensions.swift"; sourceTree = "<group>"; };
 		57F71AD92D18AC4700C57C2E /* CadenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CadenceManager.swift; sourceTree = "<group>"; };
 		57F71ADB2D18AD2400C57C2E /* CycleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CycleProgressView.swift; sourceTree = "<group>"; };
-		57F71ADD2D18AF1C00C57C2E /* CadenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CadenceViewModel.swift; sourceTree = "<group>"; };
 		57F71ADF2D18AFC800C57C2E /* CadenceSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CadenceSettingsView.swift; sourceTree = "<group>"; };
 		57F71AE02D18AFC800C57C2E /* EditCadenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCadenceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -174,7 +178,6 @@
 		57875EE82D1779550011A52D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				57F71ADD2D18AF1C00C57C2E /* CadenceViewModel.swift */,
 				57875EFF2D17AAB80011A52D /* PathwayViewModel.swift */,
 				57875EE72D1779550011A52D /* MainViewModel.swift */,
 			);
@@ -228,6 +231,8 @@
 		57DCFDD82D175642005D628F /* XPTests */ = {
 			isa = PBXGroup;
 			children = (
+				57DD1C1D2D1943BF004C9950 /* CadenceCycleTests.swift */,
+				57DD1C192D1940C7004C9950 /* CadenceTimeframeTests.swift */,
 				57875EF52D1779B40011A52D /* MainViewModelTests.swift */,
 				57DCFDD92D175642005D628F /* XPTests.swift */,
 			);
@@ -246,6 +251,7 @@
 		57DD1C152D193BB8004C9950 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				57DD1C1B2D19413D004C9950 /* CadenceTimeframe.swift */,
 				57DD1C142D193BB8004C9950 /* Date+Testing.swift */,
 			);
 			path = Utilities;
@@ -385,6 +391,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57DD1C1C2D19413D004C9950 /* CadenceTimeframe.swift in Sources */,
 				57F71ADC2D18AD2400C57C2E /* CycleProgressView.swift in Sources */,
 				57875EE92D1779550011A52D /* MainViewModel.swift in Sources */,
 				57875F042D17AC300011A52D /* AddPathwayView.swift in Sources */,
@@ -397,7 +404,6 @@
 				57875ED42D1766710011A52D /* PersistenceController.swift in Sources */,
 				57875EE02D176C190011A52D /* ContentView.swift in Sources */,
 				57875EFE2D17AA9C0011A52D /* Pathway+Extensions.swift in Sources */,
-				57F71ADE2D18AF1C00C57C2E /* CadenceViewModel.swift in Sources */,
 				57875EFA2D177DF10011A52D /* ObjectiveDetailView.swift in Sources */,
 				57DD1C162D193BB8004C9950 /* Date+Testing.swift in Sources */,
 				57875F062D17C6FC0011A52D /* Color+Extensions.swift in Sources */,
@@ -414,6 +420,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57DD1C1E2D1943BF004C9950 /* CadenceCycleTests.swift in Sources */,
+				57DD1C1A2D1940C7004C9950 /* CadenceTimeframeTests.swift in Sources */,
 				57DCFDDA2D175642005D628F /* XPTests.swift in Sources */,
 				57875EF62D1779B40011A52D /* MainViewModelTests.swift in Sources */,
 			);

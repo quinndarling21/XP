@@ -3,7 +3,7 @@ import SwiftUI
 struct EditCadenceView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var pathway: Pathway
-    @StateObject private var cadenceViewModel = CadenceViewModel()
+    @EnvironmentObject var mainViewModel: MainViewModel
     
     @State private var frequency: CadenceFrequency
     @State private var count: Int

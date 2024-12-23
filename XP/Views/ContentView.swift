@@ -143,7 +143,9 @@ struct ContentView: View {
                                 ForEach(viewModel.objectives(for: pathway)) { objective in
                                     ObjectiveNode(
                                         objective: objective,
-                                        isCurrentTask: objective.order == Int(pathway.objectivesCompleted),
+                                        isCurrentTask: !objective.isCompleted && viewModel.objectives(for: pathway)
+                                            .filter { !$0.isCompleted }
+                                            .first?.id == objective.id,
                                         pathwayColor: pathway.pathwayColor,
                                         onComplete: {
                                             viewModel.markObjectiveComplete(objective, in: pathway)
@@ -315,6 +317,6 @@ struct XPProgressBar: View {
     
     try? context.save() // Save to ensure ID is persisted
     
-    return ContentView(pathwayId: samplePathway.id!)
+    return ContentView(pathwayId: UUID())
         .environment(\.managedObjectContext, context)
 } 

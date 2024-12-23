@@ -5,14 +5,15 @@ import SwiftUI
 class MainViewModel: ObservableObject {
     private let persistenceController: PersistenceController
     private var viewContext: NSManagedObjectContext
+    private let pathwayViewModel: PathwayViewModel
+    private let cadenceManager = CadenceManager.shared
     
     @Published private(set) var user: User?
-    
-    private let cadenceManager = CadenceManager.shared
     
     init(persistenceController: PersistenceController = .shared) {
         self.persistenceController = persistenceController
         self.viewContext = persistenceController.container.viewContext
+        self.pathwayViewModel = PathwayViewModel(persistenceController: persistenceController)
         
         fetchUserData()
         
@@ -43,6 +44,8 @@ class MainViewModel: ObservableObject {
     }
     
     func markObjectiveComplete(_ objective: Objective, in pathway: Pathway) {
+        print("\n🎯 markObjectiveComplete called")
+        print("📝 Marking objective \(objective.id) complete in pathway: \(pathway.name ?? "unknown")")
         guard let user = user else { return }
         
         let request = NSFetchRequest<StoredObjective>(entityName: "StoredObjective")
@@ -52,8 +55,12 @@ class MainViewModel: ObservableObject {
             let storedObjectives = try viewContext.fetch(request)
             guard let storedObjective = storedObjectives.first else { return }
             
-            // 1. Mark objective as completed
             storedObjective.isCompleted = true
+            
+            // Generate one new objective
+            print("🆕 Requesting generation of 1 new objective")
+            let pathwayViewModel = PathwayViewModel(persistenceController: persistenceController)
+            pathwayViewModel.generateObjectives(for: pathway, count: 1)
             
             // 2. Update pathway XP and level
             let newPathwayXP = pathway.currentXP + storedObjective.xpValue
@@ -65,7 +72,7 @@ class MainViewModel: ObservableObject {
                 pathway.currentXP = newPathwayXP
             }
             
-            // 3. Update user XP and level
+            // 4. Update user XP and level
             let newUserXP = user.currentXP + storedObjective.xpValue
             if newUserXP >= user.requiredXPForLevel {
                 user.currentLevel += 1
@@ -75,11 +82,11 @@ class MainViewModel: ObservableObject {
                 user.currentXP = newUserXP
             }
             
-            // 4. Update completed objectives count for pathway
+            // 5. Update completed objectives count for pathway
             pathway.objectivesCompleted += 1
             
-            // 5. Save changes to Core Data
             try viewContext.save()
+            print("💾 Changes saved")
             
             // 6. Refresh Core Data objects
             viewContext.refresh(pathway, mergeChanges: true)
@@ -99,7 +106,7 @@ class MainViewModel: ObservableObject {
             }
             
         } catch {
-            print("Error completing objective: \(error)")
+            print("❌ Error completing objective: \(error)")
         }
     }
     
@@ -115,26 +122,17 @@ class MainViewModel: ObservableObject {
     }
     
     func objectives(for pathway: Pathway) -> [Objective] {
+        print("📊 Fetching objectives for pathway: \(pathway.name ?? "unknown")")
         let request = NSFetchRequest<StoredObjective>(entityName: "StoredObjective")
-        
-        if let activeCycle = pathway.activeCadenceCycle {
-            // Get both cycle objectives AND non-cycle objectives
-            request.predicate = NSPredicate(
-                format: "pathway == %@ AND (cadenceCycle == %@ OR cadenceCycle == nil)",
-                pathway, activeCycle
-            )
-        } else {
-            // Just get all pathway objectives
-            request.predicate = NSPredicate(format: "pathway == %@", pathway)
-        }
-        
+        request.predicate = NSPredicate(format: "pathway == %@", pathway)
         request.sortDescriptors = [NSSortDescriptor(keyPath: \StoredObjective.order, ascending: true)]
         
         do {
             let storedObjectives = try viewContext.fetch(request)
+            print("📝 Found \(storedObjectives.count) objectives")
             return storedObjectives.map { $0.objective }
         } catch {
-            print("Error fetching objectives: \(error)")
+            print("❌ Error fetching objectives: \(error)")
             return []
         }
     }
@@ -152,32 +150,6 @@ class MainViewModel: ObservableObject {
         }
     }
     
-    private func generateObjectives(for pathway: Pathway) {
-        let request = NSFetchRequest<StoredObjective>(entityName: "StoredObjective")
-        request.predicate = NSPredicate(format: "pathway == %@", pathway)
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \StoredObjective.order, ascending: true)]
-        
-        do {
-            let storedObjectives = try viewContext.fetch(request)
-            
-            // Get the highest order number
-            let highestOrder = storedObjectives.map { $0.order }.max() ?? -1
-            
-            // Create one new objective with the next order number
-            let objective = StoredObjective(context: viewContext)
-            objective.id = UUID()
-            objective.order = highestOrder + 1
-            objective.xpValue = Int32(Int.random(in: 10...50) * 10)
-            objective.isCompleted = false
-            objective.pathway = pathway
-            
-            try viewContext.save()
-            objectWillChange.send()
-        } catch {
-            print("Error generating objectives: \(error)")
-        }
-    }
-    
     func deletePathway(_ pathway: Pathway) {
         viewContext.delete(pathway)
         
@@ -190,7 +162,7 @@ class MainViewModel: ObservableObject {
     }
     
     func checkCadenceResets() {
-        cadenceManager.checkAndUpdateCycles(in: viewContext)
+        cadenceManager.checkAndUpdateCycles()
         // Refresh UI after potential updates
         objectWillChange.send()
     }

@@ -28,13 +28,13 @@ extension Pathway {
         pathway.id = UUID()
         pathway.name = name
         pathway.descriptionText = description
-        pathway.currentLevel = 1
-        pathway.currentXP = 0
-        pathway.requiredXPForLevel = 1000
-        pathway.objectivesCompleted = 0
         pathway.colorIndex = Int32(colorIndex)
+        pathway.currentXP = 0
+        pathway.currentLevel = 1
+        pathway.requiredXPForLevel = 1500
+        pathway.objectivesCompleted = 0
         
-        // First create cadence objectives if applicable
+        // Set up cadence if specified
         if cadenceFrequency != .none {
             let cycle = CadenceCycle.create(
                 in: context,
@@ -42,27 +42,7 @@ extension Pathway {
                 count: objectivesCount,
                 pathway: pathway
             )
-            
-            // Generate cycle objectives first (0 to n-1)
-            for i in 0..<objectivesCount {
-                let objective = StoredObjective.create(
-                    in: context,
-                    order: i,
-                    pathway: pathway,
-                    cycle: cycle
-                )
-            }
-        }
-        
-        // Then generate the additional 5 incomplete objectives
-        let startOrder = objectivesCount // Start after any cycle objectives
-        for i in 0..<5 {
-            let objective = StoredObjective.create(
-                in: context,
-                order: startOrder + i,
-                pathway: pathway,
-                cycle: nil
-            )
+            pathway.activeCadenceCycle = cycle
         }
         
         return pathway
