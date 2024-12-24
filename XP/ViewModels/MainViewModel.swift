@@ -111,8 +111,12 @@ class MainViewModel: ObservableObject {
     }
     
     private func checkCycleCompletion(_ cycle: CadenceCycle) {
-        // This method can be used to trigger any special behavior when all objectives in a cycle are completed
+        print("\n🔄 Checking cycle completion")
+        // Check if all objectives in the cycle are completed
         if cycle.completedObjectivesCount == cycle.count {
+            // Update streak if all objectives are completed
+            cycle.checkAndUpdateStreak()
+            
             NotificationCenter.default.post(
                 name: NSNotification.Name("CycleCompleted"),
                 object: nil,
@@ -122,14 +126,12 @@ class MainViewModel: ObservableObject {
     }
     
     func objectives(for pathway: Pathway) -> [Objective] {
-        print("📊 Fetching objectives for pathway: \(pathway.name ?? "unknown")")
         let request = NSFetchRequest<StoredObjective>(entityName: "StoredObjective")
         request.predicate = NSPredicate(format: "pathway == %@", pathway)
         request.sortDescriptors = [NSSortDescriptor(keyPath: \StoredObjective.order, ascending: true)]
         
         do {
             let storedObjectives = try viewContext.fetch(request)
-            print("📝 Found \(storedObjectives.count) objectives")
             return storedObjectives.map { $0.objective }
         } catch {
             print("❌ Error fetching objectives: \(error)")

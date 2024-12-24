@@ -44,6 +44,9 @@ class CadenceManager {
             return
         }
         
+        // Check streak before updating cycle
+        cycle.checkAndUpdateStreak()
+        
         // Fetch all available objectives for this pathway
         let objectivesFetch: NSFetchRequest<StoredObjective> = StoredObjective.fetchRequest()
         objectivesFetch.predicate = NSPredicate(
@@ -54,7 +57,6 @@ class CadenceManager {
         
         do {
             let availableObjectives = try context.fetch(objectivesFetch)
-            print("📝 Found \(availableObjectives.count) available objectives")
             cycle.updateForNewCycle(availableObjectives: availableObjectives)
             
             // Generate new objectives if needed
