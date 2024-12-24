@@ -12,14 +12,6 @@ struct CycleProgressView: View {
         Int(cycle.count)
     }
     
-    private var currentStreak: Int {
-        let streak = Int(cycle.currentStreak)
-        print("🔥 Current streak value: \(streak)")
-        print("🔄 Cycle frequency: \(cycle.frequency)")
-        print("📅 Last completed date: \(String(describing: cycle.lastCompletedDate))")
-        return streak
-    }
-    
     private var timeframeText: String {
         switch cycle.cadenceFrequency {
         case .daily: return "today"
@@ -31,42 +23,10 @@ struct CycleProgressView: View {
     
     var body: some View {
         VStack(spacing: 8) {
-            // Streak and Progress info
-            HStack {
-                if currentStreak > 0 {
-                    Label {
-                        Text("\(currentStreak) day\(currentStreak == 1 ? "" : "s")")
-                            .onAppear {
-                                print("🎯 Streak label appeared with value: \(currentStreak)")
-                            }
-                    } icon: {
-                        Image(systemName: "flame.fill")
-                            .foregroundStyle(.orange)
-                    }
-                    .font(.subheadline)
-                    .foregroundStyle(.primary)
-                } else {
-                    // Debug view to show when streak is 0
-                    Text("No streak")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .onAppear {
-                            print("⚠️ Streak is 0 or less")
-                        }
-                }
-                
-                Spacer()
-                
-                Text("\(completedCount) of \(totalCount) completed \(timeframeText)")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-            }
-            .onAppear {
-                print("📊 CycleProgressView appeared")
-                print("🎯 Pathway name: \(pathway.name ?? "unnamed")")
-                print("📝 Total objectives: \(totalCount)")
-                print("✅ Completed objectives: \(completedCount)")
-            }
+            // Progress text (removed streak, keeping only completion status)
+            Text("\(completedCount) of \(totalCount) completed \(timeframeText)")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
             
             // Progress bar
             GeometryReader { geometry in

@@ -123,13 +123,25 @@ struct ContentView: View {
             // Main Content
             VStack(spacing: 0) {
                 if let pathway = pathway {
-                    // Title Section
-                    Text(pathway.name ?? "Unnamed Pathway")
-                        .font(.system(size: 36, weight: .bold))
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(pathway.pathwayColor)
+                    // Title Section with Streak
+                    VStack(spacing: 4) {
+                        Text(pathway.name ?? "Unnamed Pathway")
+                            .font(.system(size: 36, weight: .bold))
+                        
+                        if let activeCycle = pathway.activeCadenceCycle, activeCycle.currentStreak > 0 {
+                            HStack {
+                                Image(systemName: "flame.fill")
+                                    .foregroundStyle(.orange)
+                                Text("\(activeCycle.currentStreak) \(streakText(for: activeCycle))")
+                                    .font(.subheadline.bold())
+                                    .foregroundStyle(.white.opacity(0.9))
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(pathway.pathwayColor)
                     
                     // Cycle Progress (if active)
                     if let activeCycle = pathway.activeCadenceCycle {
@@ -207,6 +219,20 @@ struct ContentView: View {
             pathway = pathways.first
         } catch {
             print("Error fetching pathway: \(error)")
+        }
+    }
+    
+    private func streakText(for cycle: CadenceCycle) -> String {
+        let count = cycle.currentStreak
+        switch cycle.cadenceFrequency {
+        case .daily:
+            return "day\(count == 1 ? "" : "s")"
+        case .weekly:
+            return "week\(count == 1 ? "" : "s")"
+        case .monthly:
+            return "month\(count == 1 ? "" : "s")"
+        case .none:
+            return ""
         }
     }
 }

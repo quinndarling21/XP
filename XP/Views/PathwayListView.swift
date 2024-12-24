@@ -3,22 +3,46 @@ import SwiftUI
 struct PathwayCard: View {
     @ObservedObject var pathway: Pathway
     
+    private func streakText(for cycle: CadenceCycle) -> String {
+        let count = cycle.currentStreak
+        switch cycle.cadenceFrequency {
+        case .daily:
+            return "day\(count == 1 ? "" : "s")"
+        case .weekly:
+            return "week\(count == 1 ? "" : "s")"
+        case .monthly:
+            return "month\(count == 1 ? "" : "s")"
+        case .none:
+            return ""
+        }
+    }
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 4) {
             HStack {
-                Text(pathway.name ?? "Unnamed Pathway")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(.white)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(pathway.name ?? "Unnamed Pathway")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(.white)
+                    
+                    Text("Level \(pathway.currentLevel)")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundColor(.white.opacity(0.9))
+                }
+                
                 Spacer()
-                Text("Level \(pathway.currentLevel)")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundColor(.white.opacity(0.9))
+                
+                if let activeCycle = pathway.activeCadenceCycle,
+                   activeCycle.currentStreak > 0 {
+                    HStack {
+                        Image(systemName: "flame.fill")
+                            .foregroundStyle(.orange)
+                        Text("\(activeCycle.currentStreak) \(streakText(for: activeCycle))")
+                            .font(.subheadline.bold())
+                            .foregroundStyle(.white.opacity(0.9))
+                    }
+                }
             }
-            
-            Text(pathway.descriptionText ?? "No description")
-                .font(.subheadline)
-                .foregroundColor(.white.opacity(0.8))
-                .lineLimit(2)
         }
         .padding()
         .background(
