@@ -3,6 +3,11 @@ import SwiftUI
 struct PathwayCard: View {
     @ObservedObject var pathway: Pathway
     
+    private var needsAttention: Bool {
+        guard let activeCycle = pathway.activeCadenceCycle else { return false }
+        return activeCycle.completedObjectivesCount < Int(activeCycle.count)
+    }
+    
     private func streakText(for cycle: CadenceCycle) -> String {
         let count = cycle.currentStreak
         switch cycle.cadenceFrequency {
@@ -18,38 +23,62 @@ struct PathwayCard: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(pathway.name ?? "Unnamed Pathway")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(.white)
+        ZStack {
+            // Background glow layer
+            if needsAttention {
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(.red)
+                    .blur(radius: 8)
+                    .opacity(0.9)
+            }
+            
+            // Card content layer
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(pathway.name ?? "Unnamed Pathway")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(.white)
+                        
+                        Text("Level \(pathway.currentLevel)")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundColor(.white.opacity(0.9))
+                    }
                     
-                    Text("Level \(pathway.currentLevel)")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundColor(.white.opacity(0.9))
-                }
-                
-                Spacer()
-                
-                if let activeCycle = pathway.activeCadenceCycle,
-                   activeCycle.currentStreak > 0 {
-                    HStack {
-                        Image(systemName: "flame.fill")
-                            .foregroundStyle(.orange)
-                        Text("\(activeCycle.currentStreak) \(streakText(for: activeCycle))")
-                            .font(.subheadline.bold())
-                            .foregroundStyle(.white.opacity(0.9))
+                    Spacer()
+                    
+                    if let activeCycle = pathway.activeCadenceCycle {
+                        VStack(alignment: .trailing, spacing: 4) {
+                            // Cadence Progress
+                            Text("\(activeCycle.completedObjectivesCount)/\(activeCycle.count)")
+                                .font(.subheadline)
+                                .foregroundStyle(.white.opacity(0.9))
+                            
+                            // Streak (if exists)
+                            if activeCycle.currentStreak > 0 {
+                                HStack {
+                                    Image(systemName: "flame.fill")
+                                        .foregroundStyle(.orange)
+                                    Text("\(activeCycle.currentStreak) \(streakText(for: activeCycle))")
+                                        .font(.subheadline.bold())
+                                        .foregroundStyle(.white.opacity(0.9))
+                                }
+                            }
+                        }
                     }
                 }
             }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(pathway.pathwayColor)
+                    .shadow(
+                        color: .black.opacity(0.2),
+                        radius: 5
+                    )
+            )
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(pathway.pathwayColor)
-                .shadow(radius: 5)
-        )
+        .animation(.easeInOut, value: needsAttention)
     }
 }
 
