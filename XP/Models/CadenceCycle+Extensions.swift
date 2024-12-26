@@ -113,7 +113,7 @@ extension CadenceCycle {
         }
         
         let nextObjectives = availableObjectives
-            .filter { !$0.isCompleted && $0.cadenceCycle == nil }
+            .filter { !$0.isCompleted }
             .prefix(Int(count))
         
         nextObjectives.forEach { objective in

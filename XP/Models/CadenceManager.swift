@@ -50,7 +50,7 @@ class CadenceManager {
         // Fetch all available objectives for this pathway
         let objectivesFetch: NSFetchRequest<StoredObjective> = StoredObjective.fetchRequest()
         objectivesFetch.predicate = NSPredicate(
-            format: "pathway == %@ AND isCompleted == NO AND cadenceCycle == nil",
+            format: "pathway == %@ AND isCompleted == NO",
             pathway
         )
         objectivesFetch.sortDescriptors = [NSSortDescriptor(keyPath: \StoredObjective.order, ascending: true)]
