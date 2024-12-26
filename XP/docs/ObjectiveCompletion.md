@@ -1,16 +1,33 @@
 # Objective Completion System
 
 ## Overview
-The objective completion system handles the process of marking objectives as complete, updating progress, and managing XP rewards across different contexts.
+The objective completion system handles the creation, completion, and management of objectives within pathways. Each objective represents a task that can be completed to earn XP and progress through levels.
 
 ## Key Features
+
+### Objective Creation
+- Automatic generation of objectives
+- XP values between 100-500 (multiples of 10)
+- Initial minimum of 10 objectives per pathway
+- Completed objectives are preserved for history
+- New objectives generated upon completion
+- Sequential ordering system
+- Optional cadence cycle assignment
 
 ### Completion Process
 1. Mark objective as completed
 2. Award XP to pathway and user
-3. Update cycle progress if applicable
-4. Save to persistent storage
-5. Refresh UI state
+3. Generate new objective while preserving completed ones
+4. Update completion statistics
+5. Handle level-up if applicable
+6. Update cadence progress if part of cycle
+
+### Objective Management
+- Maintains history of completed objectives
+- Generates new objectives upon completion
+- Preserves objective order
+- Tracks completion status
+- Manages XP distribution
 
 ### XP Distribution
 - Adds XP to pathway progress
@@ -18,7 +35,7 @@ The objective completion system handles the process of marking objectives as com
 - Handles level-up scenarios
 - Maintains proper state
 
-### Cycle Integration
+### Cadence Integration
 - Tracks completion within active cycles
 - Updates cycle progress
 - Maintains cycle integrity
@@ -33,10 +50,11 @@ The objective completion system handles the process of marking objectives as com
 - UI updates
 
 ### Progress Tracking
-- Multiple progress contexts
-- Proper state synchronization
-- Completion validation
-- Error handling
+- Multiple progress contexts:
+  - Individual objective completion
+  - Pathway XP and levels
+  - Cadence cycle progress
+  - User total progression
 
 ### Best Practices
 - Atomic updates
@@ -44,23 +62,10 @@ The objective completion system handles the process of marking objectives as com
 - Error recovery
 - Performance optimization
 
-## Usage Guidelines
-
-### Completion Flow
-1. User initiates completion
-2. System validates action
-3. Updates are processed
-4. State is persisted
-5. UI reflects changes
-
-### Error Handling
-- Validates completion state
-- Handles failed updates
-- Maintains data integrity
-- Provides user feedback
-
-### Performance
-- Batch updates when possible
-- Efficient refresh patterns
-- Minimal UI updates
-- Proper context management 
+## Testing Coverage
+- Objective generation and properties
+- Completion mechanics
+- XP distribution
+- Level progression
+- Cadence integration
+- State consistency 

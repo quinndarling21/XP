@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5768B5882D1CE04A00F5E0D0 /* PathwayManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768B5872D1CE04A00F5E0D0 /* PathwayManagementTests.swift */; };
+		5768B58A2D1CE19900F5E0D0 /* ObjectiveManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768B5892D1CE19900F5E0D0 /* ObjectiveManagementTests.swift */; };
+		5768B58C2D1CE4D000F5E0D0 /* CadenceManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768B58B2D1CE4D000F5E0D0 /* CadenceManagementTests.swift */; };
 		57875ED42D1766710011A52D /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875ED02D1766710011A52D /* PersistenceController.swift */; };
 		57875ED82D1766810011A52D /* ProjectStructure.md in Resources */ = {isa = PBXBuildFile; fileRef = 57875ED62D1766810011A52D /* ProjectStructure.md */; };
 		57875EDD2D17681F0011A52D /* XP.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57875EDB2D17681F0011A52D /* XP.xcdatamodeld */; };
@@ -17,7 +20,6 @@
 		57875EE92D1779550011A52D /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875EE72D1779550011A52D /* MainViewModel.swift */; };
 		57875EF32D17799A0011A52D /* ViewModels.md in Resources */ = {isa = PBXBuildFile; fileRef = 57875EF12D17799A0011A52D /* ViewModels.md */; };
 		57875EF42D17799A0011A52D /* Models.md in Resources */ = {isa = PBXBuildFile; fileRef = 57875EF22D17799A0011A52D /* Models.md */; };
-		57875EF62D1779B40011A52D /* MainViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875EF52D1779B40011A52D /* MainViewModelTests.swift */; };
 		57875EF82D177AB50011A52D /* Views.md in Resources */ = {isa = PBXBuildFile; fileRef = 57875EF72D177AB50011A52D /* Views.md */; };
 		57875EFA2D177DF10011A52D /* ObjectiveDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875EF92D177DF10011A52D /* ObjectiveDetailView.swift */; };
 		57875EFC2D1789E10011A52D /* StoredObjective+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875EFB2D1789E10011A52D /* StoredObjective+Extensions.swift */; };
@@ -29,8 +31,6 @@
 		57DCFDCD2D175642005D628F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57DCFDCC2D175642005D628F /* Assets.xcassets */; };
 		57DCFDD02D175642005D628F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57DCFDCF2D175642005D628F /* Preview Assets.xcassets */; };
 		57DCFDDA2D175642005D628F /* XPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DCFDD92D175642005D628F /* XPTests.swift */; };
-		57DCFDE42D175642005D628F /* XPUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DCFDE32D175642005D628F /* XPUITests.swift */; };
-		57DCFDE62D175642005D628F /* XPUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DCFDE52D175642005D628F /* XPUITestsLaunchTests.swift */; };
 		57DD1C162D193BB8004C9950 /* Date+Testing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DD1C142D193BB8004C9950 /* Date+Testing.swift */; };
 		57DD1C182D193C2A004C9950 /* DebugTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DD1C172D193C2A004C9950 /* DebugTimeView.swift */; };
 		57DD1C1A2D1940C7004C9950 /* CadenceTimeframeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DD1C192D1940C7004C9950 /* CadenceTimeframeTests.swift */; };
@@ -61,6 +61,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5768B5872D1CE04A00F5E0D0 /* PathwayManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathwayManagementTests.swift; sourceTree = "<group>"; };
+		5768B5892D1CE19900F5E0D0 /* ObjectiveManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveManagementTests.swift; sourceTree = "<group>"; };
+		5768B58B2D1CE4D000F5E0D0 /* CadenceManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CadenceManagementTests.swift; sourceTree = "<group>"; };
 		57875ED02D1766710011A52D /* PersistenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		57875ED62D1766810011A52D /* ProjectStructure.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ProjectStructure.md; sourceTree = "<group>"; };
 		57875EDC2D17681F0011A52D /* XP.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = XP.xcdatamodel; sourceTree = "<group>"; };
@@ -70,7 +73,6 @@
 		57875EE72D1779550011A52D /* MainViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		57875EF12D17799A0011A52D /* ViewModels.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ViewModels.md; sourceTree = "<group>"; };
 		57875EF22D17799A0011A52D /* Models.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Models.md; sourceTree = "<group>"; };
-		57875EF52D1779B40011A52D /* MainViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModelTests.swift; sourceTree = "<group>"; };
 		57875EF72D177AB50011A52D /* Views.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Views.md; sourceTree = "<group>"; };
 		57875EF92D177DF10011A52D /* ObjectiveDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectiveDetailView.swift; sourceTree = "<group>"; };
 		57875EFB2D1789E10011A52D /* StoredObjective+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StoredObjective+Extensions.swift"; sourceTree = "<group>"; };
@@ -86,8 +88,6 @@
 		57DCFDD52D175642005D628F /* XPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		57DCFDD92D175642005D628F /* XPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPTests.swift; sourceTree = "<group>"; };
 		57DCFDDF2D175642005D628F /* XPUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XPUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		57DCFDE32D175642005D628F /* XPUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPUITests.swift; sourceTree = "<group>"; };
-		57DCFDE52D175642005D628F /* XPUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		57DD1C142D193BB8004C9950 /* Date+Testing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Testing.swift"; sourceTree = "<group>"; };
 		57DD1C172D193C2A004C9950 /* DebugTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugTimeView.swift; sourceTree = "<group>"; };
 		57DD1C192D1940C7004C9950 /* CadenceTimeframeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CadenceTimeframeTests.swift; sourceTree = "<group>"; };
@@ -231,9 +231,11 @@
 		57DCFDD82D175642005D628F /* XPTests */ = {
 			isa = PBXGroup;
 			children = (
+				5768B58B2D1CE4D000F5E0D0 /* CadenceManagementTests.swift */,
+				5768B5892D1CE19900F5E0D0 /* ObjectiveManagementTests.swift */,
+				5768B5872D1CE04A00F5E0D0 /* PathwayManagementTests.swift */,
 				57DD1C1D2D1943BF004C9950 /* CadenceCycleTests.swift */,
 				57DD1C192D1940C7004C9950 /* CadenceTimeframeTests.swift */,
-				57875EF52D1779B40011A52D /* MainViewModelTests.swift */,
 				57DCFDD92D175642005D628F /* XPTests.swift */,
 			);
 			path = XPTests;
@@ -242,8 +244,6 @@
 		57DCFDE22D175642005D628F /* XPUITests */ = {
 			isa = PBXGroup;
 			children = (
-				57DCFDE32D175642005D628F /* XPUITests.swift */,
-				57DCFDE52D175642005D628F /* XPUITestsLaunchTests.swift */,
 			);
 			path = XPUITests;
 			sourceTree = "<group>";
@@ -420,10 +420,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5768B58C2D1CE4D000F5E0D0 /* CadenceManagementTests.swift in Sources */,
+				5768B58A2D1CE19900F5E0D0 /* ObjectiveManagementTests.swift in Sources */,
 				57DD1C1E2D1943BF004C9950 /* CadenceCycleTests.swift in Sources */,
+				5768B5882D1CE04A00F5E0D0 /* PathwayManagementTests.swift in Sources */,
 				57DD1C1A2D1940C7004C9950 /* CadenceTimeframeTests.swift in Sources */,
 				57DCFDDA2D175642005D628F /* XPTests.swift in Sources */,
-				57875EF62D1779B40011A52D /* MainViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,8 +433,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57DCFDE62D175642005D628F /* XPUITestsLaunchTests.swift in Sources */,
-				57DCFDE42D175642005D628F /* XPUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
