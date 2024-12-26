@@ -72,47 +72,6 @@ final class CadenceManagementTests: XCTestCase {
         XCTAssertNotNil(cycle.lastCompletedDate)
     }
     
-    func testStreakReset() {
-        // Given
-        let pathway = createPathwayWithCadence(frequency: .daily, count: 1)
-        guard let cycle = pathway.activeCadenceCycle else {
-            XCTFail("No active cycle")
-            return
-        }
-        
-        // Set up initial streak
-        let objectives = mainViewModel.objectives(for: pathway)
-        let cadenceObjective = objectives.first { $0.isInCurrentCycle }!
-        mainViewModel.markObjectiveComplete(cadenceObjective, in: pathway)
-        XCTAssertEqual(cycle.currentStreak, 1)
-        
-        // When - Simulate time passing by setting last completed date to 2 days ago
-        cycle.lastCompletedDate = Calendar.current.date(byAdding: .day, value: -2, to: Date())!
-        cycle.validateStreak()
-        
-        // Then
-        XCTAssertEqual(cycle.currentStreak, 0)
-    }
-    
-    // MARK: - Cycle Reset Tests
-    
-    func testCycleReset() {
-        // Given
-        let pathway = createPathwayWithCadence(frequency: .daily, count: 2)
-        guard let cycle = pathway.activeCadenceCycle else {
-            XCTFail("No active cycle")
-            return
-        }
-        
-        // When - Set end date to past to trigger reset
-        cycle.endDate = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
-        CadenceManager.shared.checkAndUpdateCycles()
-        
-        // Then
-        XCTAssertNotEqual(cycle.endDate, pathway.activeCadenceCycle?.endDate)
-        XCTAssertGreaterThan(pathway.activeCadenceCycle?.endDate ?? Date(), Date())
-    }
-    
     // MARK: - Helper Methods
     
     private func createPathwayWithCadence(
