@@ -46,11 +46,11 @@ struct PathwayCard: View {
                     }
                     
                     Spacer()
-                    
+
                     if let activeCycle = pathway.activeCadenceCycle {
                         VStack(alignment: .trailing, spacing: 4) {
                             // Cadence Progress
-                            Text("\(activeCycle.completedObjectivesCount)/\(activeCycle.count)")
+                            Text("\(min(activeCycle.completedObjectivesCount, Int(activeCycle.count)))/\(activeCycle.count)")
                                 .font(.subheadline)
                                 .foregroundStyle(.white.opacity(0.9))
                             

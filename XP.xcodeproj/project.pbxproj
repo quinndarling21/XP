@@ -189,7 +189,6 @@
 			children = (
 				57DCFDC72D175641005D628F /* XP */,
 				57DCFDD82D175642005D628F /* XPTests */,
-				57DCFDE22D175642005D628F /* XPUITests */,
 				57DCFDC62D175641005D628F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -239,13 +238,6 @@
 				57DCFDD92D175642005D628F /* XPTests.swift */,
 			);
 			path = XPTests;
-			sourceTree = "<group>";
-		};
-		57DCFDE22D175642005D628F /* XPUITests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = XPUITests;
 			sourceTree = "<group>";
 		};
 		57DD1C152D193BB8004C9950 /* Utilities */ = {

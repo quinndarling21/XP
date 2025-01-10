@@ -89,6 +89,7 @@ struct ContentView: View {
     @State private var pathway: Pathway?
     @State private var startButtonPosition: CGFloat = 0
     @State private var scrollOffset: CGPoint = .zero
+    @State private var showingCadenceEdit = false
     
     private func calculateProgress(objectives: [Objective]) -> Double {
         let totalCount = Double(objectives.count)
@@ -185,6 +186,12 @@ struct ContentView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
+                    Button {
+                        showingCadenceEdit = true
+                    } label: {
+                        Label("Edit Cadence", systemImage: "clock")
+                    }
+                    
                     Button(role: .destructive) {
                         dismiss()
                         if let pathway = pathway {
@@ -201,12 +208,22 @@ struct ContentView: View {
         }
         .onAppear {
             refreshPathway()
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithTransparentBackground()
-            appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-            appearance.buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white]
-            UINavigationBar.appearance().standardAppearance = appearance
-            UINavigationBar.appearance().tintColor = .white
+            setupAppearance()
+            
+            // Add observer for pathway updates
+            NotificationCenter.default.addObserver(
+                forName: NSNotification.Name("PathwayDidUpdate"),
+                object: nil,
+                queue: .main
+            ) { _ in
+                refreshPathway()
+            }
+        }
+        .sheet(isPresented: $showingCadenceEdit) {
+            if let pathway = pathway {
+                EditCadenceView(pathway: pathway)
+                    .environmentObject(viewModel)
+            }
         }
     }
     
@@ -234,6 +251,15 @@ struct ContentView: View {
         case .none:
             return ""
         }
+    }
+    
+    private func setupAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white]
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().tintColor = .white
     }
 }
 

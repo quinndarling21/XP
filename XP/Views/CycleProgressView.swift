@@ -4,8 +4,8 @@ struct CycleProgressView: View {
     @ObservedObject var pathway: Pathway
     @ObservedObject var cycle: CadenceCycle
     
-    private var completedCount: Int {
-        cycle.completedObjectivesCount
+    private var completedCountAdjusted: Int {
+        min(cycle.completedObjectivesCount, Int(cycle.count))
     }
     
     private var totalCount: Int {
@@ -24,7 +24,7 @@ struct CycleProgressView: View {
     var body: some View {
         VStack(spacing: 8) {
             // Progress text (removed streak, keeping only completion status)
-            Text("\(completedCount) of \(totalCount) completed \(timeframeText)")
+            Text("\(completedCountAdjusted) of \(totalCount) completed \(timeframeText)")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
             
@@ -36,11 +36,11 @@ struct CycleProgressView: View {
                         .fill(pathway.pathwayColor.opacity(0.2))
                     
                     // Progress
-                    if completedCount > 0 {
+                    if completedCountAdjusted > 0 {
                         RoundedRectangle(cornerRadius: 4)
                             .fill(pathway.pathwayColor)
-                            .frame(width: geometry.size.width * CGFloat(completedCount) / CGFloat(totalCount))
-                            .animation(.spring, value: completedCount)
+                            .frame(width: geometry.size.width * CGFloat(completedCountAdjusted) / CGFloat(totalCount))
+                            .animation(.spring, value: completedCountAdjusted)
                     }
                 }
             }
