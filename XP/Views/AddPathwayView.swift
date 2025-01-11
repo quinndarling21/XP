@@ -105,7 +105,6 @@ struct AddPathwayView: View {
 struct EmojiPickerView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var selectedEmoji: String
-    @State private var searchText = ""
     
     // Emoji categories with descriptions
     private let emojiCategories: [(name: String, emojis: [String])] = [
@@ -123,10 +122,7 @@ struct EmojiPickerView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                SearchBar(text: $searchText)
-                    .padding()
-                
-                ForEach(filteredCategories, id: \.name) { category in
+                ForEach(emojiCategories, id: \.name) { category in
                     VStack(alignment: .leading) {
                         Text(category.name)
                             .font(.headline)
@@ -160,36 +156,6 @@ struct EmojiPickerView: View {
                     }
                 }
             }
-        }
-    }
-    
-    private var filteredCategories: [(name: String, emojis: [String])] {
-        if searchText.isEmpty {
-            return emojiCategories
-        }
-        return emojiCategories.compactMap { category in
-            let filteredEmojis = category.emojis.filter { emoji in
-                emoji.localizedCaseInsensitiveContains(searchText)
-            }
-            if filteredEmojis.isEmpty {
-                return nil
-            }
-            return (category.name, filteredEmojis)
-        }
-    }
-}
-
-// Search bar component
-struct SearchBar: View {
-    @Binding var text: String
-    
-    var body: some View {
-        HStack {
-            Image(systemName: "magnifyingglass")
-                .foregroundColor(.gray)
-            
-            TextField("Search emojis", text: $text)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
         }
     }
 }
