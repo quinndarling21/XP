@@ -153,4 +153,16 @@ class PathwayViewModel: ObservableObject {
             print("Error fetching pathways: \(error)")
         }
     }
+    
+    func updateUserFirstName(_ firstName: String) {
+        guard let user = user else { return }
+        user.firstName = firstName
+        
+        do {
+            try viewContext.save()
+            objectWillChange.send()
+        } catch {
+            print("Error saving user first name: \(error)")
+        }
+    }
 } 

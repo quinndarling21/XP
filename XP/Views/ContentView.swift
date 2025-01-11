@@ -337,25 +337,163 @@ struct XPProgressBar: View {
     let level: Int32
     let tintColor: Color
     
+    @State private var isAnimating = false
+    @State private var showingSparkles = false
+    
     private var progress: Double {
         Double(currentXP) / Double(requiredXP)
     }
     
+    private var formattedProgress: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+        return formatter.string(from: NSNumber(value: progress)) ?? "0%"
+    }
+    
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 12) {
+            // Level Badge and XP Counter
             HStack {
-                Text("Level \(level)")
-                    .font(.headline)
+                // Level Badge
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [tintColor, tintColor.opacity(0.7)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 54, height: 54)
+                        .shadow(color: tintColor.opacity(0.3), radius: 4)
+                    
+                    VStack(spacing: -2) {
+                        Text("Level")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(.white.opacity(0.9))
+                        Text("\(level)")
+                            .font(.system(size: 20, weight: .black))
+                            .foregroundColor(.white)
+                    }
+                    .shadow(radius: 1)
+                }
+                .overlay {
+                    Circle()
+                        .stroke(Color.white, lineWidth: 2)
+                        .opacity(0.3)
+                }
+                
                 Spacer()
-                Text("\(currentXP)/\(requiredXP) XP")
-                    .font(.subheadline)
+                
+                // XP Counter
+                HStack(alignment: .bottom, spacing: 4) {
+                    Text("\(currentXP)")
+                        .font(.system(size: 24, weight: .bold))
+                    Text("/")
+                        .font(.system(size: 16, weight: .medium))
+                        .opacity(0.7)
+                    Text("\(requiredXP)")
+                        .font(.system(size: 16, weight: .medium))
+                        .opacity(0.7)
+                    Text("XP")
+                        .font(.system(size: 14, weight: .bold))
+                        .padding(.leading, 2)
+                }
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [tintColor, tintColor.opacity(0.7)],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
             }
             
-            ProgressView(value: progress)
-                .tint(tintColor)
+            // Progress Bar
+            ZStack(alignment: .leading) {
+                // Background
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(height: 24)
+                
+                // Progress Fill
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(
+                        LinearGradient(
+                            colors: [tintColor, tintColor.opacity(0.7)],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .frame(width: isAnimating ? UIScreen.main.bounds.width * CGFloat(progress) : 0, height: 24)
+                    .overlay {
+                        // Shimmer effect
+                        if isAnimating {
+                            GeometryReader { geometry in
+                                Rectangle()
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [
+                                                .white.opacity(0),
+                                                .white.opacity(0.5),
+                                                .white.opacity(0)
+                                            ],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+                                    .frame(width: 20)
+                                    .offset(x: -10 + (geometry.size.width * (isAnimating ? 1 : 0)))
+                                    .blur(radius: 3)
+                            }
+                        }
+                    }
+                    .animation(.spring(duration: 1.0), value: isAnimating)
+                
+                // Percentage Text
+                Text(formattedProgress)
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 12)
+                    .shadow(radius: 1)
+            }
+            
+            // Level Up Sparkles
+            if showingSparkles {
+                HStack(spacing: 2) {
+                    ForEach(0..<3) { index in
+                        Image(systemName: "sparkle")
+                            .font(.system(size: 14))
+                            .foregroundColor(tintColor)
+                            .opacity(showingSparkles ? 1 : 0)
+                            .scaleEffect(showingSparkles ? 1.2 : 0.8)
+                            .animation(
+                                .spring(duration: 0.5)
+                                .repeatCount(3)
+                                .delay(Double(index) * 0.1),
+                                value: showingSparkles
+                            )
+                    }
+                }
+                .transition(.scale.combined(with: .opacity))
+            }
         }
         .padding()
-        .background(tintColor.opacity(0.1))
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(.ultraThinMaterial)
+                .shadow(color: .black.opacity(0.1), radius: 10)
+        )
+        .onAppear {
+            withAnimation {
+                isAnimating = true
+            }
+            // Show sparkles if close to leveling up
+            if progress > 0.9 {
+                withAnimation {
+                    showingSparkles = true
+                }
+            }
+        }
     }
 }
 

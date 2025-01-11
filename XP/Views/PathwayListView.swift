@@ -85,7 +85,49 @@ struct PathwayCard: View {
 struct PathwayListView: View {
     @StateObject private var viewModel = PathwayViewModel()
     @State private var showingAddPathway = false
+    @State private var showingSettings = false
+    @State private var currentGreeting: String = ""
     @Environment(\.scenePhase) private var scenePhase
+    
+    private func randomMotivationalPhrase() -> String {
+        let phrases = [
+            "Ready for another epic day? 🚀",
+            "Let's make today count! ⭐️",
+            "Your journey continues... 🎯",
+            "Small steps, big victories! 💪",
+            "Keep that momentum going! 🔥",
+            "You're on a roll! 🎲",
+            "Adventure awaits! 🗺️",
+            "Making progress look good! ✨"
+        ]
+        return phrases.randomElement() ?? phrases[0]
+    }
+    
+    private func randomGreeting(for name: String) -> String {
+        let greetings = [
+            "Hey \(name)",
+            "Yo \(name)",
+            "What's up \(name)",
+            "Howdy \(name)",
+            "Hi there \(name)",
+            "Welcome back \(name)",
+            "Sup \(name)",
+            "G'day \(name)",
+            "Hiya \(name)",
+            "Ahoy \(name)",
+            "Aloha \(name)",
+            "*fist bump* \(name)",
+            "Look who's here! \(name)",
+            "The legend returns! \(name)",
+            "Ready player \(name)",
+            "Power up, \(name)",
+            "⚡️ \(name) has entered the chat",
+            "Mission control to \(name)",
+            "Player 1: \(name)",
+            "Loading awesome... \(name)"
+        ]
+        return greetings.randomElement() ?? greetings[0]
+    }
     
     var body: some View {
         NavigationView {
@@ -94,11 +136,51 @@ struct PathwayListView: View {
                 DebugTimeView()
                 #endif
                 
-                // App Title
-                Text("XP")
-                    .font(.system(size: 36, weight: .bold))
-                    .frame(maxWidth: .infinity)
-                    .padding()
+                // App Title Section
+                VStack(spacing: 8) {
+                    if let firstName = viewModel.user?.firstName, !firstName.isEmpty {
+                        Text(currentGreeting)
+                            .font(.system(size: 32, weight: .bold))
+                            .foregroundStyle(
+                                LinearGradient(
+                                    colors: [.blue, .purple],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .shadow(color: .blue.opacity(0.3), radius: 2, x: 0, y: 2)
+                            .onAppear {
+                                currentGreeting = randomGreeting(for: firstName)
+                            }
+                    }
+                    
+                    Text("Time to level up!")
+                        .font(.system(size: 42, weight: .heavy))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [.orange, .red],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .shadow(color: .orange.opacity(0.3), radius: 3, x: 0, y: 3)
+                        .padding(.bottom, 4)
+                    
+                    // Optional: Add a fun motivational subtitle that changes randomly
+                    Text(randomMotivationalPhrase())
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundStyle(.secondary)
+                        .italic()
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 24)
+                .padding(.horizontal)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(.ultraThinMaterial)
+                        .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
+                )
+                .padding()
                 
                 ScrollView {
                     LazyVStack(spacing: 16) {
@@ -107,6 +189,26 @@ struct PathwayListView: View {
                                 PathwayCard(pathway: pathway)
                             }
                         }
+                        
+                        // Add New Pathway Button
+                        Button(action: {
+                            showingAddPathway = true
+                        }) {
+                            HStack {
+                                Image(systemName: "plus.circle.fill")
+                                Text("New Pathway")
+                            }
+                            .font(.headline)
+                            .foregroundColor(.accentColor)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .strokeBorder(Color.accentColor, lineWidth: 2)
+                                    .background(Color.accentColor.opacity(0.1))
+                            )
+                        }
+                        .padding(.top, 8)
                     }
                     .padding()
                 }
@@ -125,9 +227,9 @@ struct PathwayListView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        showingAddPathway = true
+                        showingSettings = true
                     }) {
-                        Image(systemName: "plus")
+                        Image(systemName: "gear")
                             .font(.system(size: 20, weight: .semibold))
                     }
                 }
@@ -135,10 +237,16 @@ struct PathwayListView: View {
             .sheet(isPresented: $showingAddPathway) {
                 AddPathwayView(viewModel: viewModel)
             }
+            .sheet(isPresented: $showingSettings) {
+                SettingsView(viewModel: viewModel)
+            }
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
                 viewModel.refreshPathways()
+                if let firstName = viewModel.user?.firstName, !firstName.isEmpty {
+                    currentGreeting = randomGreeting(for: firstName)
+                }
             }
         }
         .onAppear {

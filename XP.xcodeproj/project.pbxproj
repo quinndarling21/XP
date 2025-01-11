@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5724739D2D31E4AC00D5246B /* CadenceSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5724739C2D31E4AC00D5246B /* CadenceSettingsTests.swift */; };
+		5724739F2D31F41000D5246B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5724739E2D31F41000D5246B /* SettingsView.swift */; };
 		5768B5882D1CE04A00F5E0D0 /* PathwayManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768B5872D1CE04A00F5E0D0 /* PathwayManagementTests.swift */; };
 		5768B58A2D1CE19900F5E0D0 /* ObjectiveManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768B5892D1CE19900F5E0D0 /* ObjectiveManagementTests.swift */; };
 		5768B58C2D1CE4D000F5E0D0 /* CadenceManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5768B58B2D1CE4D000F5E0D0 /* CadenceManagementTests.swift */; };
@@ -61,6 +63,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5724739C2D31E4AC00D5246B /* CadenceSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CadenceSettingsTests.swift; sourceTree = "<group>"; };
+		5724739E2D31F41000D5246B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5768B5872D1CE04A00F5E0D0 /* PathwayManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathwayManagementTests.swift; sourceTree = "<group>"; };
 		5768B5892D1CE19900F5E0D0 /* ObjectiveManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveManagementTests.swift; sourceTree = "<group>"; };
 		5768B58B2D1CE4D000F5E0D0 /* CadenceManagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CadenceManagementTests.swift; sourceTree = "<group>"; };
@@ -149,6 +153,7 @@
 		57875EDF2D176C190011A52D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5724739E2D31F41000D5246B /* SettingsView.swift */,
 				57DD1C172D193C2A004C9950 /* DebugTimeView.swift */,
 				57F71ADF2D18AFC800C57C2E /* CadenceSettingsView.swift */,
 				57F71AE02D18AFC800C57C2E /* EditCadenceView.swift */,
@@ -230,6 +235,7 @@
 		57DCFDD82D175642005D628F /* XPTests */ = {
 			isa = PBXGroup;
 			children = (
+				5724739C2D31E4AC00D5246B /* CadenceSettingsTests.swift */,
 				5768B58B2D1CE4D000F5E0D0 /* CadenceManagementTests.swift */,
 				5768B5892D1CE19900F5E0D0 /* ObjectiveManagementTests.swift */,
 				5768B5872D1CE04A00F5E0D0 /* PathwayManagementTests.swift */,
@@ -384,6 +390,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				57DD1C1C2D19413D004C9950 /* CadenceTimeframe.swift in Sources */,
+				5724739F2D31F41000D5246B /* SettingsView.swift in Sources */,
 				57F71ADC2D18AD2400C57C2E /* CycleProgressView.swift in Sources */,
 				57875EE92D1779550011A52D /* MainViewModel.swift in Sources */,
 				57875F042D17AC300011A52D /* AddPathwayView.swift in Sources */,
@@ -413,6 +420,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5768B58C2D1CE4D000F5E0D0 /* CadenceManagementTests.swift in Sources */,
+				5724739D2D31E4AC00D5246B /* CadenceSettingsTests.swift in Sources */,
 				5768B58A2D1CE19900F5E0D0 /* ObjectiveManagementTests.swift in Sources */,
 				57DD1C1E2D1943BF004C9950 /* CadenceCycleTests.swift in Sources */,
 				5768B5882D1CE04A00F5E0D0 /* PathwayManagementTests.swift in Sources */,
