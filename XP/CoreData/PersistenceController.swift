@@ -1,33 +1,52 @@
 import CoreData
 
-struct PersistenceController {
+final class PersistenceController {
     static let shared = PersistenceController()
     
     let container: NSPersistentContainer
     
     static var managedObjectModel: NSManagedObjectModel = {
+        // Keep your existing model loading
         let modelURL = Bundle.main.url(forResource: "XP", withExtension: "momd")!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
     init(inMemory: Bool = false) {
-        container = NSPersistentContainer(name: "XP", managedObjectModel: Self.managedObjectModel)
+        // 1) Create the container with your existing model
+        let container = NSPersistentContainer(name: "XP", managedObjectModel: Self.managedObjectModel)
         
+        // 2) If running in-memory (tests), store in /dev/null
         if inMemory {
             container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
+        } else {
+            // Attempt to place the .sqlite file in the App Group container
+            if let appGroupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.yourapp.XP") {
+                let storeURL = appGroupURL.appendingPathComponent("XPModel.sqlite")
+                
+                if let storeDescription = container.persistentStoreDescriptions.first {
+                    storeDescription.url = storeURL
+                    // Enable lightweight migration options
+                    storeDescription.setOption(true as NSNumber,
+                                               forKey: NSMigratePersistentStoresAutomaticallyOption)
+                    storeDescription.setOption(true as NSNumber,
+                                               forKey: NSInferMappingModelAutomaticallyOption)
+                }
+            }
         }
         
-        let viewContext = container.viewContext
-        
+        // 3) Load the persistent stores
         container.loadPersistentStores { description, error in
             if let error = error {
                 fatalError("Error: \(error.localizedDescription)")
             }
             
-            viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+            // 4) Merge policy and auto-merge
+            container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+            container.viewContext.automaticallyMergesChangesFromParent = true
         }
         
-        container.viewContext.automaticallyMergesChangesFromParent = true
+        // 5) Assign the container to our class property
+        self.container = container
     }
     
     // Helper method to create a new user with defaults
@@ -36,4 +55,4 @@ struct PersistenceController {
         user.id = UUID()
         return user
     }
-} 
+}
