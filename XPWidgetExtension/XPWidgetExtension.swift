@@ -9,103 +9,155 @@ import WidgetKit
 import SwiftUI
 import CoreData
 
-// MARK: - 1) Timeline Entry
-struct DataCheckWidgetEntry: TimelineEntry {
-    let date: Date
-    let pathwayCount: Int
-    let userFirstName: String?
+// MARK: - Pathway Info
+struct PathwayInfo {
+    let emoji: String
+    let needsAttention: Bool
 }
 
-// MARK: - 2) Timeline Provider
-struct DataCheckProvider: TimelineProvider {
-    
+// MARK: - Timeline Entry
+struct PathwayWidgetEntry: TimelineEntry {
+    let date: Date
+    let pathways: [PathwayInfo]
+}
+
+// MARK: - Timeline Provider
+struct PathwayProvider: TimelineProvider {
     let persistenceController: PersistenceController
     
     init() {
         persistenceController = PersistenceController.shared
     }
     
-    // Placeholder: Shown in widget gallery
-    func placeholder(in context: Context) -> DataCheckWidgetEntry {
-        DataCheckWidgetEntry(
-            date: Date(),
-            pathwayCount: 0,
-            userFirstName: "Loading..."
-        )
+    func placeholder(in context: Context) -> PathwayWidgetEntry {
+        PathwayWidgetEntry(date: Date(), pathways: [
+            PathwayInfo(emoji: "✨", needsAttention: true),
+            PathwayInfo(emoji: "🏊‍♂️", needsAttention: false)
+        ])
     }
-
-    // Snapshot: Used in certain quick refresh scenarios
-    func getSnapshot(in context: Context, completion: @escaping (DataCheckWidgetEntry) -> Void) {
-        let entry = fetchDataAndMakeEntry()
+    
+    func getSnapshot(in context: Context, completion: @escaping (PathwayWidgetEntry) -> Void) {
+        let entry = fetchPathwaysAndMakeEntry()
         completion(entry)
     }
-
-    // Main timeline refresh
-    func getTimeline(in context: Context, completion: @escaping (Timeline<DataCheckWidgetEntry>) -> Void) {
-        let entry = fetchDataAndMakeEntry()
-        // Let’s update every 30 minutes, for testing
-        let nextRefresh = Calendar.current.date(byAdding: .minute, value: 30, to: Date())!
-        let timeline = Timeline(entries: [entry], policy: .after(nextRefresh))
+    
+    func getTimeline(in context: Context, completion: @escaping (Timeline<PathwayWidgetEntry>) -> Void) {
+        let entry = fetchPathwaysAndMakeEntry()
+        // Update more frequently and use .atEnd to allow for dynamic updates
+        let timeline = Timeline(entries: [entry], policy: .atEnd)
         completion(timeline)
     }
-
-    // MARK: - Data Fetch
-    private func fetchDataAndMakeEntry() -> DataCheckWidgetEntry {
-        print("Widget: Starting data fetch")
+    
+    private func fetchPathwaysAndMakeEntry() -> PathwayWidgetEntry {
         let context = persistenceController.container.viewContext
+        let request = NSFetchRequest<Pathway>(entityName: "Pathway")
         
-        // Fetch pathway count
-        let pathwayFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Pathway")
-        let pathwayCount = (try? context.count(for: pathwayFetch)) ?? 0
-        print("Widget: Found \(pathwayCount) pathways")
+        let pathways = (try? context.fetch(request)) ?? []
+        let pathwayInfos = pathways.map { pathway -> PathwayInfo in
+            let needsAttention: Bool
+            if let activeCycle = pathway.activeCadenceCycle {
+                // Get the objectives array and count completed ones
+                let objectives = activeCycle.objectives?.allObjects as? [StoredObjective] ?? []
+                let completedCount = objectives.filter { $0.isCompleted }.count
+                needsAttention = completedCount < Int(activeCycle.count)
+            } else {
+                needsAttention = false
+            }
+            
+            return PathwayInfo(
+                emoji: pathway.emoji ?? "✨",
+                needsAttention: needsAttention
+            )
+        }
         
-        // Fetch user's first name
-        let userFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
-        userFetch.fetchLimit = 1
-        let users = (try? context.fetch(userFetch) as? [NSManagedObject]) ?? []
-        let firstName = users.first?.value(forKey: "firstName") as? String
-        print("Widget: Found user firstName: \(String(describing: firstName))")
-        
-        return DataCheckWidgetEntry(
-            date: Date(),
-            pathwayCount: pathwayCount,
-            userFirstName: firstName
-        )
+        return PathwayWidgetEntry(date: Date(), pathways: pathwayInfos)
     }
 }
 
-// MARK: - 3) Widget View
-struct DataCheckWidgetEntryView: View {
-    let entry: DataCheckWidgetEntry
+// MARK: - Widget Views
+struct PathwayCircleView: View {
+    let info: PathwayInfo
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            if let name = entry.userFirstName {
-                Text("Hello, \(name)!")
-                    .font(.headline)
-            }
+        ZStack {
+            Circle()
+                .strokeBorder(info.needsAttention ? Color.red : Color.green, lineWidth: 3)
             
-            Text("Active Pathways: \(entry.pathwayCount)")
-                .font(.subheadline)
+            Text(info.emoji)
+                .font(.system(size: 24))
+        }
+    }
+}
+
+struct PathwayGridView: View {
+    let pathways: [PathwayInfo]
+    let columns: Int
+    let maxItems: Int
+    
+    var body: some View {
+        let items = pathways.prefix(maxItems)
+        let rows = (items.count + columns - 1) / columns
+        
+        VStack(spacing: 8) {
+            ForEach(0..<rows, id: \.self) { row in
+                HStack(spacing: 8) {
+                    ForEach(0..<columns, id: \.self) { col in
+                        let index = row * columns + col
+                        if index < items.count {
+                            PathwayCircleView(info: items[index])
+                        } else {
+                            Color.clear
+                        }
+                    }
+                }
+            }
         }
         .padding()
     }
 }
 
-// MARK: - 4) Main widget config
+struct PathwayWidgetEntryView: View {
+    let entry: PathwayWidgetEntry
+    @Environment(\.widgetFamily) var family
+    
+    var columns: Int {
+        switch family {
+        case .systemSmall: return 2
+        case .systemMedium: return 4
+        case .systemLarge: return 4
+        default: return 2
+        }
+    }
+    
+    var maxItems: Int {
+        switch family {
+        case .systemSmall: return 4
+        case .systemMedium: return 8
+        case .systemLarge: return 12
+        default: return 4
+        }
+    }
+    
+    var body: some View {
+        let sortedPathways = entry.pathways.sorted { $0.needsAttention && !$1.needsAttention }
+        PathwayGridView(pathways: sortedPathways, columns: columns, maxItems: maxItems)
+    }
+}
+
+// MARK: - Widget Configuration
 @main
-struct XPDataCheckWidget: Widget {
-    private let kind = "XPDataCheckWidget"
+struct XPPathwayWidget: Widget {
+    private let kind = "XPPathwayWidget"
     
     var body: some WidgetConfiguration {
         StaticConfiguration(
             kind: kind,
-            provider: DataCheckProvider()
+            provider: PathwayProvider()
         ) { entry in
-            DataCheckWidgetEntryView(entry: entry)
+            PathwayWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("XP Status")
-        .description("Shows your XP progress")
-        .supportedFamilies([.systemSmall])
+        .configurationDisplayName("Pathway Status")
+        .description("Shows your pathways that need attention")
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }

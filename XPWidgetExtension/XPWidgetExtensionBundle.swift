@@ -11,7 +11,7 @@ import SwiftUI
 // @main
 struct XPWidgetExtensionBundle: WidgetBundle {
     var body: some Widget {
-        XPDataCheckWidget()
+        XPPathwayWidget()
         XPWidgetExtensionControl()
         XPWidgetExtensionLiveActivity()
     }

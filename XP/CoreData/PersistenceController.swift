@@ -1,4 +1,5 @@
 import CoreData
+import WidgetKit
 
 final class PersistenceController {
     static let shared = PersistenceController()
@@ -43,6 +44,13 @@ final class PersistenceController {
             // 4) Merge policy and auto-merge
             container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
             container.viewContext.automaticallyMergesChangesFromParent = true
+            
+            // Add notification for changes
+            NotificationCenter.default.addObserver(forName: .NSManagedObjectContextDidSave, object: container.viewContext, queue: .main) { _ in
+                #if !WIDGET_EXTENSION
+                WidgetCenter.shared.reloadAllTimelines()
+                #endif
+            }
         }
         
         // 5) Assign the container to our class property
