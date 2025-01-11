@@ -81,7 +81,8 @@ struct PathwayCircleView: View {
     var body: some View {
         ZStack {
             Circle()
-                .strokeBorder(info.needsAttention ? Color.red : Color.green, lineWidth: 3)
+                .stroke(info.needsAttention ? Color.red : Color.green, lineWidth: 2)
+                .frame(width: 48, height: 48)
             
             Text(info.emoji)
                 .font(.system(size: 24))
@@ -98,21 +99,20 @@ struct PathwayGridView: View {
         let items = pathways.prefix(maxItems)
         let rows = (items.count + columns - 1) / columns
         
-        VStack(spacing: 8) {
+        VStack(spacing: 10) {
             ForEach(0..<rows, id: \.self) { row in
-                HStack(spacing: 8) {
+                HStack(spacing: 10) {
                     ForEach(0..<columns, id: \.self) { col in
                         let index = row * columns + col
                         if index < items.count {
                             PathwayCircleView(info: items[index])
                         } else {
-                            Color.clear
+                            Color.clear.frame(width: 48, height: 48)
                         }
                     }
                 }
             }
         }
-        .padding()
     }
 }
 
@@ -138,9 +138,59 @@ struct PathwayWidgetEntryView: View {
         }
     }
     
+    private var hasIncompletePathways: Bool {
+        entry.pathways.contains { $0.needsAttention }
+    }
+    
     var body: some View {
         let sortedPathways = entry.pathways.sorted { $0.needsAttention && !$1.needsAttention }
-        PathwayGridView(pathways: sortedPathways, columns: columns, maxItems: maxItems)
+        
+        ZStack {
+            // Glowing border
+            ContainerRelativeShape()
+                .fill(
+                    hasIncompletePathways ?
+                        LinearGradient(
+                            colors: [
+                                Color.red.opacity(0.6),
+                                Color.red.opacity(0.3),
+                                Color.red.opacity(0.1)
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ) :
+                        LinearGradient(
+                            colors: [
+                                Color.green.opacity(0.6),
+                                Color.green.opacity(0.3),
+                                Color.green.opacity(0.1)
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                )
+                .blur(radius: 3)
+            
+            // Content Container
+            ContainerRelativeShape()
+                .fill(Color(uiColor: .systemBackground))
+                .padding(3)
+                .overlay(
+                    ZStack {
+                        // Background color based on status
+                        ContainerRelativeShape()
+                            .fill(hasIncompletePathways ? 
+                                Color.red.opacity(0.1) :
+                                Color.green.opacity(0.1))
+                        
+                        VStack {
+                            PathwayGridView(pathways: sortedPathways, columns: columns, maxItems: maxItems)
+                                .padding(.vertical, 8)
+                        }
+                    }
+                    .padding(3)
+                )
+        }
     }
 }
 
