@@ -19,44 +19,46 @@ struct PathwayCard: View {
             }
             
             // Card content layer
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 4) {
                 // Title and Level
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(pathway.name ?? "Unnamed Pathway")
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(.white)
-                        .lineLimit(1)
-                    
-                    Text("Level \(pathway.currentLevel)")
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(.white.opacity(0.9))
-                }
+                Text(pathway.name ?? "Unnamed Pathway")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundColor(.white)
+                    .lineLimit(1)
+                
+                Text("Level \(pathway.currentLevel)")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.white.opacity(0.9))
                 
                 Spacer()
                 
-                // Progress and Streak
-                if let activeCycle = pathway.activeCadenceCycle {
-                    VStack(alignment: .leading, spacing: 4) {
-                        // Progress
-                        HStack {
-                            Text("\(min(activeCycle.completedObjectivesCount, Int(activeCycle.count)))/\(activeCycle.count)")
-                                .font(.system(size: 14, weight: .medium))
-                            
-                            if activeCycle.currentStreak > 0 {
-                                Spacer()
-                                Image(systemName: "flame.fill")
-                                    .foregroundStyle(.orange)
-                                Text("\(activeCycle.currentStreak)")
-                                    .font(.system(size: 14, weight: .bold))
-                            }
+                // Progress and Streak row
+                HStack {
+                    // Progress always on left
+                    if let activeCycle = pathway.activeCadenceCycle {
+                        Text("\(min(activeCycle.completedObjectivesCount, Int(activeCycle.count)))/\(activeCycle.count)")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundStyle(.white.opacity(0.9))
+                    }
+                    
+                    Spacer()
+                    
+                    // Streak on right if it exists
+                    if let activeCycle = pathway.activeCadenceCycle,
+                       activeCycle.currentStreak > 0 {
+                        HStack(spacing: 4) {
+                            Image(systemName: "flame.fill")
+                                .foregroundStyle(.orange)
+                            Text("\(activeCycle.currentStreak)")
+                                .font(.system(size: 14, weight: .bold))
                         }
                         .foregroundStyle(.white.opacity(0.9))
                     }
                 }
             }
-            .padding(12)
+            .padding()
             .frame(height: 120)
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, alignment: .leading)
             .background(
                 RoundedRectangle(cornerRadius: 16)
                     .fill(pathway.pathwayColor)

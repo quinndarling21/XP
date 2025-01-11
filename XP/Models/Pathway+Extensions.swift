@@ -21,6 +21,7 @@ extension Pathway {
         name: String,
         description: String,
         colorIndex: Int,
+        emoji: String,
         cadenceFrequency: CadenceFrequency = .none,
         objectivesCount: Int = 0
     ) -> Pathway {
@@ -29,6 +30,7 @@ extension Pathway {
         pathway.name = name
         pathway.descriptionText = description
         pathway.colorIndex = Int32(colorIndex)
+        pathway.emoji = emoji
         pathway.currentXP = 0
         pathway.currentLevel = 1
         pathway.requiredXPForLevel = 1500

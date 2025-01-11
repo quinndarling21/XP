@@ -124,67 +124,58 @@ struct ContentView: View {
             // Main Content
             VStack(spacing: 0) {
                 if let pathway = pathway {
-                    // Enhanced Title Section
-                    VStack(spacing: 8) {
+                    // Header card
+                    HStack(alignment: .center) {
+                        // Emoji pill
+                        Text(pathway.emoji ?? "✨")
+                            .font(.system(size: 24))
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(Color.black.opacity(0.05))
+                            .clipShape(Capsule())
+                        
+                        Spacer()
+                        
+                        // Title
                         Text(pathway.name ?? "Unnamed Pathway")
                             .font(.system(size: 32, weight: .bold))
-                            .foregroundColor(.white)
-                            .shadow(color: .black.opacity(0.2), radius: 2)
-                            .padding(.top, 16)
-                        
-                        if let activeCycle = pathway.activeCadenceCycle,
-                           activeCycle.currentStreak > 0 {
-                            HStack(spacing: 8) {
-                                // Streak Icon with more contrast
-                                ZStack {
-                                    Circle()
-                                        .fill(.white.opacity(0.3))
-                                        .frame(width: 32, height: 32)
-                                    
-                                    Image(systemName: "flame.fill")
-                                        .font(.system(size: 16, weight: .medium))
-                                        .foregroundStyle(
-                                            LinearGradient(
-                                                colors: [.orange, .yellow.opacity(0.9)],
-                                                startPoint: .top,
-                                                endPoint: .bottom
-                                            )
-                                        )
-                                        .shadow(color: .black.opacity(0.2), radius: 1)
-                                }
-                                
-                                // Streak Text with better contrast
-                                Text("\(activeCycle.currentStreak) \(streakText(for: activeCycle))")
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .foregroundStyle(.white)
-                                    .shadow(color: .black.opacity(0.2), radius: 1)
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                            .background(.white.opacity(0.15))
-                            .clipShape(Capsule())
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 20)
-                    .background(
-                        Rectangle()
-                            .fill(
+                            .foregroundStyle(
                                 LinearGradient(
-                                    colors: [
-                                        pathway.pathwayColor,
-                                        pathway.pathwayColor.opacity(0.9)
-                                    ],
-                                    startPoint: .top,
-                                    endPoint: .bottom
+                                    colors: [pathway.pathwayColor, pathway.pathwayColor.opacity(0.8)],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
                                 )
                             )
-                    )
-                    .overlay(
-                        Rectangle()
+                        
+                        Spacer()
+                        
+                        // Streak pill (if exists)
+                        if let activeCycle = pathway.activeCadenceCycle,
+                           activeCycle.currentStreak > 0 {
+                            HStack(spacing: 4) {
+                                Image(systemName: "flame.fill")
+                                    .foregroundStyle(.orange)
+                                Text("\(activeCycle.currentStreak)")
+                                    .font(.system(size: 16, weight: .bold))
+                            }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(Color.black.opacity(0.05))
+                            .clipShape(Capsule())
+                        } else {
+                            // Empty view to maintain layout when no streak
+                            Color.clear
+                                .frame(width: 44, height: 44)
+                        }
+                    }
+                    .padding(.horizontal)
+                    .padding(.vertical, 16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
                             .fill(.ultraThinMaterial)
-                            .opacity(0.2)
+                            .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
                     )
+                    .padding()
                     
                     // Cycle Progress (if active)
                     if let activeCycle = pathway.activeCadenceCycle {
@@ -220,6 +211,7 @@ struct ContentView: View {
                         level: pathway.currentLevel,
                         tintColor: pathway.pathwayColor
                     )
+                    .padding()
                 }
             }
         }
@@ -298,11 +290,11 @@ struct ContentView: View {
         let count = cycle.currentStreak
         switch cycle.cadenceFrequency {
         case .daily:
-            return "day\(count == 1 ? "" : "s")"
+            return count == 1 ? "day" : "days"
         case .weekly:
-            return "week\(count == 1 ? "" : "s")"
+            return count == 1 ? "week" : "weeks"
         case .monthly:
-            return "month\(count == 1 ? "" : "s")"
+            return count == 1 ? "month" : "months"
         case .none:
             return ""
         }

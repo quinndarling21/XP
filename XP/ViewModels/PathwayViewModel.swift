@@ -48,6 +48,7 @@ class PathwayViewModel: ObservableObject {
         name: String,
         description: String,
         colorIndex: Int,
+        emoji: String,
         cadenceFrequency: CadenceFrequency = .none,
         objectivesCount: Int = 0
     ) {
@@ -57,6 +58,7 @@ class PathwayViewModel: ObservableObject {
             name: name,
             description: description,
             colorIndex: colorIndex,
+            emoji: emoji,
             cadenceFrequency: cadenceFrequency,
             objectivesCount: objectivesCount
         )

@@ -7,8 +7,10 @@ struct AddPathwayView: View {
     @State private var name = ""
     @State private var description = ""
     @State private var selectedColorIndex = 0
+    @State private var selectedEmoji = "✨"
     @State private var cadenceFrequency: CadenceFrequency = .none
     @State private var objectiveCount = 3
+    @State private var showingEmojiPicker = false
     
     private var isValid: Bool {
         !name.isEmpty && 
@@ -20,7 +22,20 @@ struct AddPathwayView: View {
         NavigationView {
             Form {
                 Section(header: Text("Pathway Details")) {
-                    TextField("Name", text: $name)
+                    HStack {
+                        Button(action: {
+                            showingEmojiPicker = true
+                        }) {
+                            Text(selectedEmoji)
+                                .font(.system(size: 32))
+                                .frame(width: 44, height: 44)
+                                .background(Color.secondary.opacity(0.2))
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                        }
+                        
+                        TextField("Name", text: $name)
+                    }
+                    
                     TextField("Description", text: $description, axis: .vertical)
                         .lineLimit(3...6)
                 }
@@ -61,6 +76,7 @@ struct AddPathwayView: View {
                             name: name,
                             description: description,
                             colorIndex: selectedColorIndex,
+                            emoji: selectedEmoji,
                             cadenceFrequency: cadenceFrequency,
                             objectivesCount: objectiveCount
                         )
@@ -79,6 +95,101 @@ struct AddPathwayView: View {
                     }
                 }
             }
+            .sheet(isPresented: $showingEmojiPicker) {
+                EmojiPickerView(selectedEmoji: $selectedEmoji)
+            }
+        }
+    }
+}
+
+struct EmojiPickerView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Binding var selectedEmoji: String
+    @State private var searchText = ""
+    
+    // Emoji categories with descriptions
+    private let emojiCategories: [(name: String, emojis: [String])] = [
+        ("Activities", ["🎯", "⚽️", "🎾", "🏈", "🎮", "🎨", "🎭", "🎪", "🎤", "🎧", "🎼", "🎹", "🎸", "🎺", "🎻", "🎲", "🎳", "🎮", "⛳️", "🎣", "🎽", "🎿", "🛷", "🥌", "🎱"]),
+        ("Health & Fitness", ["🧘‍♀️", "🏃‍♀️", "🏋️‍♀️", "🤸‍♀️", "🚴‍♀️", "🏊‍♀️", "💪", "🧠", "🫀", "🧘‍♂️", "🏃‍♂️", "🏋️‍♂️", "🤸‍♂️", "🚴‍♂️", "🏊‍♂️"]),
+        ("Learning", ["📚", "✏️", "📝", "💡", "🎓", "📖", "📕", "🔬", "🔭", "🎨", "🗣️", "🧮", "📐", "✍️", "🎯"]),
+        ("Lifestyle", ["🌱", "🍳", "🏠", "💐", "🌿", "☕️", "🧋", "🥗", "🛁", "🛋️", "📱", "💻", "🎬", "📷", "🎵"]),
+        ("Mindfulness", ["🧘‍♀️", "🌸", "🕊️", "☮️", "🌅", "🌊", "🍃", "🌺", "✨", "💫", "🌙", "⭐️", "🌟", "💭", "🕯️"]),
+        ("Productivity", ["⏰", "📅", "✓", "📊", "📈", "💼", "📱", "💻", "✉️", "📝", "✏️", "📌", "🎯", "⚡️", "💡"]),
+        ("Goals", ["🎯", "🏆", "🌟", "💫", "⭐️", "🔥", "💪", "🚀", "🎨", "📈", "💡", "✨", "🌈", "🎉", "🎊"]),
+        ("Nature", ["🌱", "🌲", "🌺", "🌸", "🌼", "🌻", "🌹", "🍀", "🌿", "🍃", "🌎", "🌍", "🌏", "☘️", "🌳"]),
+        ("Fun", ["🎉", "🎊", "🎈", "🎨", "🎭", "🎪", "🎢", "🎡", "🎠", "🎮", "🎲", "🎯", "🎳", "🎤", "🎧"])
+    ]
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                SearchBar(text: $searchText)
+                    .padding()
+                
+                ForEach(filteredCategories, id: \.name) { category in
+                    VStack(alignment: .leading) {
+                        Text(category.name)
+                            .font(.headline)
+                            .padding(.horizontal)
+                        
+                        LazyVGrid(
+                            columns: [GridItem(.adaptive(minimum: 45))],
+                            spacing: 12
+                        ) {
+                            ForEach(category.emojis, id: \.self) { emoji in
+                                Button(action: {
+                                    selectedEmoji = emoji
+                                    dismiss()
+                                }) {
+                                    Text(emoji)
+                                        .font(.system(size: 30))
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    .padding(.vertical, 8)
+                }
+            }
+            .navigationTitle("Select Emoji")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+    
+    private var filteredCategories: [(name: String, emojis: [String])] {
+        if searchText.isEmpty {
+            return emojiCategories
+        }
+        return emojiCategories.compactMap { category in
+            let filteredEmojis = category.emojis.filter { emoji in
+                emoji.localizedCaseInsensitiveContains(searchText)
+            }
+            if filteredEmojis.isEmpty {
+                return nil
+            }
+            return (category.name, filteredEmojis)
+        }
+    }
+}
+
+// Search bar component
+struct SearchBar: View {
+    @Binding var text: String
+    
+    var body: some View {
+        HStack {
+            Image(systemName: "magnifyingglass")
+                .foregroundColor(.gray)
+            
+            TextField("Search emojis", text: $text)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
         }
     }
 }
