@@ -8,20 +8,6 @@ struct PathwayCard: View {
         return activeCycle.completedObjectivesCount < Int(activeCycle.count)
     }
     
-    private func streakText(for cycle: CadenceCycle) -> String {
-        let count = cycle.currentStreak
-        switch cycle.cadenceFrequency {
-        case .daily:
-            return "day\(count == 1 ? "" : "s")"
-        case .weekly:
-            return "week\(count == 1 ? "" : "s")"
-        case .monthly:
-            return "month\(count == 1 ? "" : "s")"
-        case .none:
-            return ""
-        }
-    }
-    
     var body: some View {
         ZStack {
             // Background glow layer
@@ -33,42 +19,44 @@ struct PathwayCard: View {
             }
             
             // Card content layer
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(pathway.name ?? "Unnamed Pathway")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(.white)
-                        
-                        Text("Level \(pathway.currentLevel)")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(.white.opacity(0.9))
-                    }
+            VStack(alignment: .leading, spacing: 8) {
+                // Title and Level
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(pathway.name ?? "Unnamed Pathway")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(.white)
+                        .lineLimit(1)
                     
-                    Spacer()
-
-                    if let activeCycle = pathway.activeCadenceCycle {
-                        VStack(alignment: .trailing, spacing: 4) {
-                            // Cadence Progress
+                    Text("Level \(pathway.currentLevel)")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(.white.opacity(0.9))
+                }
+                
+                Spacer()
+                
+                // Progress and Streak
+                if let activeCycle = pathway.activeCadenceCycle {
+                    VStack(alignment: .leading, spacing: 4) {
+                        // Progress
+                        HStack {
                             Text("\(min(activeCycle.completedObjectivesCount, Int(activeCycle.count)))/\(activeCycle.count)")
-                                .font(.subheadline)
-                                .foregroundStyle(.white.opacity(0.9))
+                                .font(.system(size: 14, weight: .medium))
                             
-                            // Streak (if exists)
                             if activeCycle.currentStreak > 0 {
-                                HStack {
-                                    Image(systemName: "flame.fill")
-                                        .foregroundStyle(.orange)
-                                    Text("\(activeCycle.currentStreak) \(streakText(for: activeCycle))")
-                                        .font(.subheadline.bold())
-                                        .foregroundStyle(.white.opacity(0.9))
-                                }
+                                Spacer()
+                                Image(systemName: "flame.fill")
+                                    .foregroundStyle(.orange)
+                                Text("\(activeCycle.currentStreak)")
+                                    .font(.system(size: 14, weight: .bold))
                             }
                         }
+                        .foregroundStyle(.white.opacity(0.9))
                     }
                 }
             }
-            .padding()
+            .padding(12)
+            .frame(height: 120)
+            .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: 16)
                     .fill(pathway.pathwayColor)
@@ -88,6 +76,11 @@ struct PathwayListView: View {
     @State private var showingSettings = false
     @State private var currentGreeting: String = ""
     @Environment(\.scenePhase) private var scenePhase
+    
+    private let columns = [
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12)
+    ]
     
     private func randomMotivationalPhrase() -> String {
         let phrases = [
@@ -137,25 +130,22 @@ struct PathwayListView: View {
                 #endif
                 
                 // App Title Section
-                VStack(spacing: 8) {
-                    if let firstName = viewModel.user?.firstName, !firstName.isEmpty {
-                        Text(currentGreeting)
-                            .font(.system(size: 32, weight: .bold))
-                            .foregroundStyle(
-                                LinearGradient(
-                                    colors: [.blue, .purple],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
+                VStack(spacing: 4) {
+                    // User greeting - now centered
+                    Text("Sup \(viewModel.user?.firstName ?? "Friend")")
+                        .font(.system(size: 24, weight: .semibold))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [.blue, .purple.opacity(0.8)],
+                                startPoint: .leading,
+                                endPoint: .trailing
                             )
-                            .shadow(color: .blue.opacity(0.3), radius: 2, x: 0, y: 2)
-                            .onAppear {
-                                currentGreeting = randomGreeting(for: firstName)
-                            }
-                    }
+                        )
+                        .frame(maxWidth: .infinity, alignment: .center)
                     
+                    // Level up text - centered
                     Text("Time to level up!")
-                        .font(.system(size: 42, weight: .heavy))
+                        .font(.system(size: min(UIScreen.main.bounds.width * 0.08, 32), weight: .bold))
                         .foregroundStyle(
                             LinearGradient(
                                 colors: [.orange, .red],
@@ -163,18 +153,20 @@ struct PathwayListView: View {
                                 endPoint: .trailing
                             )
                         )
-                        .shadow(color: .orange.opacity(0.3), radius: 3, x: 0, y: 3)
-                        .padding(.bottom, 4)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.top, 4)
                     
-                    // Optional: Add a fun motivational subtitle that changes randomly
-                    Text(randomMotivationalPhrase())
+                    // Subtitle - centered
+                    Text("Keep that momentum going! 💪")
                         .font(.system(size: 16, weight: .medium))
                         .foregroundStyle(.secondary)
-                        .italic()
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 24)
                 .padding(.horizontal)
+                .padding(.vertical, 12)
+                .frame(maxWidth: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: 20)
                         .fill(.ultraThinMaterial)
@@ -183,7 +175,7 @@ struct PathwayListView: View {
                 .padding()
                 
                 ScrollView {
-                    LazyVStack(spacing: 16) {
+                    LazyVGrid(columns: columns, spacing: 12) {
                         ForEach(viewModel.pathways, id: \.id) { pathway in
                             NavigationLink(destination: ContentView(pathwayId: pathway.id ?? UUID())) {
                                 PathwayCard(pathway: pathway)
@@ -194,21 +186,22 @@ struct PathwayListView: View {
                         Button(action: {
                             showingAddPathway = true
                         }) {
-                            HStack {
+                            VStack(spacing: 8) {
                                 Image(systemName: "plus.circle.fill")
+                                    .font(.system(size: 24))
                                 Text("New Pathway")
+                                    .font(.callout.bold())
                             }
-                            .font(.headline)
                             .foregroundColor(.accentColor)
-                            .padding()
                             .frame(maxWidth: .infinity)
+                            .frame(height: 120) // Match height of other cards
                             .background(
                                 RoundedRectangle(cornerRadius: 16)
                                     .strokeBorder(Color.accentColor, lineWidth: 2)
                                     .background(Color.accentColor.opacity(0.1))
+                                    .cornerRadius(16)
                             )
                         }
-                        .padding(.top, 8)
                     }
                     .padding()
                 }
