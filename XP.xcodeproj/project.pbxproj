@@ -33,23 +33,24 @@
 		579EC3772D32EE6A0017E6B4 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 579EC3762D32EE6A0017E6B4 /* WidgetKit.framework */; };
 		579EC3792D32EE6A0017E6B4 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 579EC3782D32EE6A0017E6B4 /* SwiftUI.framework */; };
 		579EC3882D32EE6B0017E6B4 /* XPWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 579EC3742D32EE6A0017E6B4 /* XPWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		579EC3972D32F7FE0017E6B4 /* Pathway+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3912D32F7FE0017E6B4 /* Pathway+CoreDataClass.swift */; };
-		579EC3982D32F7FE0017E6B4 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3962D32F7FE0017E6B4 /* User+CoreDataProperties.swift */; };
-		579EC3992D32F7FE0017E6B4 /* Pathway+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3922D32F7FE0017E6B4 /* Pathway+CoreDataProperties.swift */; };
-		579EC39A2D32F7FE0017E6B4 /* CadenceCycle+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3902D32F7FE0017E6B4 /* CadenceCycle+CoreDataProperties.swift */; };
-		579EC39B2D32F7FE0017E6B4 /* StoredObjective+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3932D32F7FE0017E6B4 /* StoredObjective+CoreDataClass.swift */; };
-		579EC39C2D32F7FE0017E6B4 /* CadenceCycle+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC38F2D32F7FE0017E6B4 /* CadenceCycle+CoreDataClass.swift */; };
-		579EC39D2D32F7FE0017E6B4 /* StoredObjective+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3942D32F7FE0017E6B4 /* StoredObjective+CoreDataProperties.swift */; };
-		579EC39E2D32F7FE0017E6B4 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3952D32F7FE0017E6B4 /* User+CoreDataClass.swift */; };
-		579EC39F2D32F7FE0017E6B4 /* CadenceCycle+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC38F2D32F7FE0017E6B4 /* CadenceCycle+CoreDataClass.swift */; };
-		579EC3A02D32F7FE0017E6B4 /* CadenceCycle+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3902D32F7FE0017E6B4 /* CadenceCycle+CoreDataProperties.swift */; };
-		579EC3A12D32F7FE0017E6B4 /* Pathway+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3912D32F7FE0017E6B4 /* Pathway+CoreDataClass.swift */; };
-		579EC3A22D32F7FE0017E6B4 /* Pathway+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3922D32F7FE0017E6B4 /* Pathway+CoreDataProperties.swift */; };
-		579EC3A32D32F7FE0017E6B4 /* StoredObjective+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3932D32F7FE0017E6B4 /* StoredObjective+CoreDataClass.swift */; };
-		579EC3A42D32F7FE0017E6B4 /* StoredObjective+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3942D32F7FE0017E6B4 /* StoredObjective+CoreDataProperties.swift */; };
-		579EC3A52D32F7FE0017E6B4 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3952D32F7FE0017E6B4 /* User+CoreDataClass.swift */; };
-		579EC3A62D32F7FE0017E6B4 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3962D32F7FE0017E6B4 /* User+CoreDataProperties.swift */; };
 		579EC3A72D32F8510017E6B4 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57875ED02D1766710011A52D /* PersistenceController.swift */; };
+		579EC3B12D3304290017E6B4 /* Pathway+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3AA2D3304290017E6B4 /* Pathway+CoreDataClass.swift */; };
+		579EC3B22D3304290017E6B4 /* CadenceCycle+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3A82D3304290017E6B4 /* CadenceCycle+CoreDataClass.swift */; };
+		579EC3B32D3304290017E6B4 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3AF2D3304290017E6B4 /* User+CoreDataProperties.swift */; };
+		579EC3B42D3304290017E6B4 /* StoredObjective+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3AD2D3304290017E6B4 /* StoredObjective+CoreDataProperties.swift */; };
+		579EC3B52D3304290017E6B4 /* Pathway+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3AB2D3304290017E6B4 /* Pathway+CoreDataProperties.swift */; };
+		579EC3B62D3304290017E6B4 /* CadenceCycle+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3A92D3304290017E6B4 /* CadenceCycle+CoreDataProperties.swift */; };
+		579EC3B72D3304290017E6B4 /* StoredObjective+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3AC2D3304290017E6B4 /* StoredObjective+CoreDataClass.swift */; };
+		579EC3B82D3304290017E6B4 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3AE2D3304290017E6B4 /* User+CoreDataClass.swift */; };
+		579EC3B92D3304290017E6B4 /* Pathway+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3AA2D3304290017E6B4 /* Pathway+CoreDataClass.swift */; };
+		579EC3BA2D3304290017E6B4 /* CadenceCycle+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3A82D3304290017E6B4 /* CadenceCycle+CoreDataClass.swift */; };
+		579EC3BB2D3304290017E6B4 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3AF2D3304290017E6B4 /* User+CoreDataProperties.swift */; };
+		579EC3BC2D3304290017E6B4 /* StoredObjective+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3AD2D3304290017E6B4 /* StoredObjective+CoreDataProperties.swift */; };
+		579EC3BD2D3304290017E6B4 /* Pathway+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3AB2D3304290017E6B4 /* Pathway+CoreDataProperties.swift */; };
+		579EC3BE2D3304290017E6B4 /* CadenceCycle+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3A92D3304290017E6B4 /* CadenceCycle+CoreDataProperties.swift */; };
+		579EC3BF2D3304290017E6B4 /* StoredObjective+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3AC2D3304290017E6B4 /* StoredObjective+CoreDataClass.swift */; };
+		579EC3C02D3304290017E6B4 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579EC3AE2D3304290017E6B4 /* User+CoreDataClass.swift */; };
+		579EC3C12D33052E0017E6B4 /* XP.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57875EDB2D17681F0011A52D /* XP.xcdatamodeld */; };
 		57DCFDCD2D175642005D628F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57DCFDCC2D175642005D628F /* Assets.xcassets */; };
 		57DCFDD02D175642005D628F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57DCFDCF2D175642005D628F /* Preview Assets.xcassets */; };
 		57DCFDDA2D175642005D628F /* XPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DCFDD92D175642005D628F /* XPTests.swift */; };
@@ -131,14 +132,14 @@
 		579EC3762D32EE6A0017E6B4 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		579EC3782D32EE6A0017E6B4 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		579EC38E2D32EEF50017E6B4 /* XPWidgetExtensionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XPWidgetExtensionExtension.entitlements; sourceTree = "<group>"; };
-		579EC38F2D32F7FE0017E6B4 /* CadenceCycle+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CadenceCycle+CoreDataClass.swift"; path = "SharedModels/CadenceCycle+CoreDataClass.swift"; sourceTree = "<group>"; };
-		579EC3902D32F7FE0017E6B4 /* CadenceCycle+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CadenceCycle+CoreDataProperties.swift"; path = "SharedModels/CadenceCycle+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		579EC3912D32F7FE0017E6B4 /* Pathway+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Pathway+CoreDataClass.swift"; path = "SharedModels/Pathway+CoreDataClass.swift"; sourceTree = "<group>"; };
-		579EC3922D32F7FE0017E6B4 /* Pathway+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Pathway+CoreDataProperties.swift"; path = "SharedModels/Pathway+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		579EC3932D32F7FE0017E6B4 /* StoredObjective+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "StoredObjective+CoreDataClass.swift"; path = "SharedModels/StoredObjective+CoreDataClass.swift"; sourceTree = "<group>"; };
-		579EC3942D32F7FE0017E6B4 /* StoredObjective+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "StoredObjective+CoreDataProperties.swift"; path = "SharedModels/StoredObjective+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		579EC3952D32F7FE0017E6B4 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "User+CoreDataClass.swift"; path = "SharedModels/User+CoreDataClass.swift"; sourceTree = "<group>"; };
-		579EC3962D32F7FE0017E6B4 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "User+CoreDataProperties.swift"; path = "SharedModels/User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		579EC3A82D3304290017E6B4 /* CadenceCycle+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CadenceCycle+CoreDataClass.swift"; sourceTree = "<group>"; };
+		579EC3A92D3304290017E6B4 /* CadenceCycle+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CadenceCycle+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		579EC3AA2D3304290017E6B4 /* Pathway+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pathway+CoreDataClass.swift"; sourceTree = "<group>"; };
+		579EC3AB2D3304290017E6B4 /* Pathway+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pathway+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		579EC3AC2D3304290017E6B4 /* StoredObjective+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StoredObjective+CoreDataClass.swift"; sourceTree = "<group>"; };
+		579EC3AD2D3304290017E6B4 /* StoredObjective+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StoredObjective+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		579EC3AE2D3304290017E6B4 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
+		579EC3AF2D3304290017E6B4 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		57DCFDC52D175641005D628F /* XP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57DCFDC82D175641005D628F /* XPApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPApp.swift; sourceTree = "<group>"; };
 		57DCFDCC2D175642005D628F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -275,17 +276,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		579EC3B02D3304290017E6B4 /* SharedModels */ = {
+			isa = PBXGroup;
+			children = (
+				579EC3A82D3304290017E6B4 /* CadenceCycle+CoreDataClass.swift */,
+				579EC3A92D3304290017E6B4 /* CadenceCycle+CoreDataProperties.swift */,
+				579EC3AA2D3304290017E6B4 /* Pathway+CoreDataClass.swift */,
+				579EC3AB2D3304290017E6B4 /* Pathway+CoreDataProperties.swift */,
+				579EC3AC2D3304290017E6B4 /* StoredObjective+CoreDataClass.swift */,
+				579EC3AD2D3304290017E6B4 /* StoredObjective+CoreDataProperties.swift */,
+				579EC3AE2D3304290017E6B4 /* User+CoreDataClass.swift */,
+				579EC3AF2D3304290017E6B4 /* User+CoreDataProperties.swift */,
+			);
+			path = SharedModels;
+			sourceTree = "<group>";
+		};
 		57DCFDBC2D175641005D628F = {
 			isa = PBXGroup;
 			children = (
-				579EC38F2D32F7FE0017E6B4 /* CadenceCycle+CoreDataClass.swift */,
-				579EC3902D32F7FE0017E6B4 /* CadenceCycle+CoreDataProperties.swift */,
-				579EC3912D32F7FE0017E6B4 /* Pathway+CoreDataClass.swift */,
-				579EC3922D32F7FE0017E6B4 /* Pathway+CoreDataProperties.swift */,
-				579EC3932D32F7FE0017E6B4 /* StoredObjective+CoreDataClass.swift */,
-				579EC3942D32F7FE0017E6B4 /* StoredObjective+CoreDataProperties.swift */,
-				579EC3952D32F7FE0017E6B4 /* User+CoreDataClass.swift */,
-				579EC3962D32F7FE0017E6B4 /* User+CoreDataProperties.swift */,
+				579EC3B02D3304290017E6B4 /* SharedModels */,
 				579EC38E2D32EEF50017E6B4 /* XPWidgetExtensionExtension.entitlements */,
 				57DCFDC72D175641005D628F /* XP */,
 				57DCFDD82D175642005D628F /* XPTests */,
@@ -523,14 +532,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				579EC3972D32F7FE0017E6B4 /* Pathway+CoreDataClass.swift in Sources */,
-				579EC3982D32F7FE0017E6B4 /* User+CoreDataProperties.swift in Sources */,
-				579EC3992D32F7FE0017E6B4 /* Pathway+CoreDataProperties.swift in Sources */,
-				579EC39A2D32F7FE0017E6B4 /* CadenceCycle+CoreDataProperties.swift in Sources */,
-				579EC39B2D32F7FE0017E6B4 /* StoredObjective+CoreDataClass.swift in Sources */,
-				579EC39C2D32F7FE0017E6B4 /* CadenceCycle+CoreDataClass.swift in Sources */,
-				579EC39D2D32F7FE0017E6B4 /* StoredObjective+CoreDataProperties.swift in Sources */,
-				579EC39E2D32F7FE0017E6B4 /* User+CoreDataClass.swift in Sources */,
+				579EC3B92D3304290017E6B4 /* Pathway+CoreDataClass.swift in Sources */,
+				579EC3BA2D3304290017E6B4 /* CadenceCycle+CoreDataClass.swift in Sources */,
+				579EC3BB2D3304290017E6B4 /* User+CoreDataProperties.swift in Sources */,
+				579EC3C12D33052E0017E6B4 /* XP.xcdatamodeld in Sources */,
+				579EC3BC2D3304290017E6B4 /* StoredObjective+CoreDataProperties.swift in Sources */,
+				579EC3BD2D3304290017E6B4 /* Pathway+CoreDataProperties.swift in Sources */,
+				579EC3BE2D3304290017E6B4 /* CadenceCycle+CoreDataProperties.swift in Sources */,
+				579EC3BF2D3304290017E6B4 /* StoredObjective+CoreDataClass.swift in Sources */,
+				579EC3C02D3304290017E6B4 /* User+CoreDataClass.swift in Sources */,
 				579EC3A72D32F8510017E6B4 /* PersistenceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -541,6 +551,14 @@
 			files = (
 				57DD1C1C2D19413D004C9950 /* CadenceTimeframe.swift in Sources */,
 				5724739F2D31F41000D5246B /* SettingsView.swift in Sources */,
+				579EC3B12D3304290017E6B4 /* Pathway+CoreDataClass.swift in Sources */,
+				579EC3B22D3304290017E6B4 /* CadenceCycle+CoreDataClass.swift in Sources */,
+				579EC3B32D3304290017E6B4 /* User+CoreDataProperties.swift in Sources */,
+				579EC3B42D3304290017E6B4 /* StoredObjective+CoreDataProperties.swift in Sources */,
+				579EC3B52D3304290017E6B4 /* Pathway+CoreDataProperties.swift in Sources */,
+				579EC3B62D3304290017E6B4 /* CadenceCycle+CoreDataProperties.swift in Sources */,
+				579EC3B72D3304290017E6B4 /* StoredObjective+CoreDataClass.swift in Sources */,
+				579EC3B82D3304290017E6B4 /* User+CoreDataClass.swift in Sources */,
 				57F71ADC2D18AD2400C57C2E /* CycleProgressView.swift in Sources */,
 				57875EE92D1779550011A52D /* MainViewModel.swift in Sources */,
 				57875F042D17AC300011A52D /* AddPathwayView.swift in Sources */,
@@ -549,14 +567,6 @@
 				57875EE62D1777F00011A52D /* User+Extensions.swift in Sources */,
 				57875F002D17AAB80011A52D /* PathwayViewModel.swift in Sources */,
 				57875EFC2D1789E10011A52D /* StoredObjective+Extensions.swift in Sources */,
-				579EC39F2D32F7FE0017E6B4 /* CadenceCycle+CoreDataClass.swift in Sources */,
-				579EC3A02D32F7FE0017E6B4 /* CadenceCycle+CoreDataProperties.swift in Sources */,
-				579EC3A12D32F7FE0017E6B4 /* Pathway+CoreDataClass.swift in Sources */,
-				579EC3A22D32F7FE0017E6B4 /* Pathway+CoreDataProperties.swift in Sources */,
-				579EC3A32D32F7FE0017E6B4 /* StoredObjective+CoreDataClass.swift in Sources */,
-				579EC3A42D32F7FE0017E6B4 /* StoredObjective+CoreDataProperties.swift in Sources */,
-				579EC3A52D32F7FE0017E6B4 /* User+CoreDataClass.swift in Sources */,
-				579EC3A62D32F7FE0017E6B4 /* User+CoreDataProperties.swift in Sources */,
 				57875EE42D1774800011A52D /* Objective.swift in Sources */,
 				57875ED42D1766710011A52D /* PersistenceController.swift in Sources */,
 				57875EE02D176C190011A52D /* ContentView.swift in Sources */,
